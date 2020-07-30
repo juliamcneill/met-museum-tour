@@ -1,16 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from "axios";
 import "./style.scss";
+
+import QuestionOne from "./components/questionOne.jsx";
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = { view: "start" };
+
+    this.changeView = this.changeView.bind(this);
+  }
+
+  changeView(option) {
+    this.setState({
+      view: option,
+    });
+  }
+
+  renderView() {
+    if (this.state.view === "start") {
+      return <button onClick={() => this.changeView("quiz")}>Start</button>;
+    } else {
+      return <QuestionOne />;
+    }
   }
 
   render() {
-    return <h1>MET Museum Tour</h1>;
+    return <div>{this.renderView()}</div>;
   }
 }
 
