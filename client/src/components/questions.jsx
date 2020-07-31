@@ -10,7 +10,6 @@ class Questions extends React.Component {
       word3: "",
       word4: "",
       word5: "",
-      results: [],
     };
 
     this.handleFormChange = this.handleFormChange.bind(this);
@@ -30,9 +29,9 @@ class Questions extends React.Component {
         `/generate?word1=${this.state.word1.toLowerCase()}&word2=${this.state.word2.toLowerCase()}&word3=${this.state.word3.toLowerCase()}&word4=${this.state.word4.toLowerCase()}&word5=${this.state.word5.toLowerCase()}`
       )
       .then(({ data }) => {
-        this.setState({
-          results: data,
-        });
+        console.log("finished!");
+        this.props.updateResults(data);
+        this.props.changeView("results");
       })
       .catch((error) => console.log(error));
   }
@@ -40,7 +39,6 @@ class Questions extends React.Component {
   render() {
     return (
       <form>
-        <p>Enter a word:</p>
         <input
           type="text"
           placeholder="Enter word"
@@ -79,14 +77,6 @@ class Questions extends React.Component {
         <button type="submit" onClick={this.handleFormSubmit}>
           Generate Tour
         </button>
-        <div>
-          {this.state.results.map((object) => (
-            <div>
-              <div>{object.title}</div>
-              <img src={object.primaryImage} />
-            </div>
-          ))}
-        </div>
       </form>
     );
   }
