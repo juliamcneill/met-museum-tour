@@ -46,9 +46,8 @@ img {
 .right-department-name-container {
   position: relative;
   float: right;
-  width: 50%;
+  width: 60%;
   height: 150px;
-  font-size: 24px;
   margin: 15px 0px;
   text-decoration: underline;
 }
@@ -56,14 +55,14 @@ img {
 .left-department-name-container {
   position: relative;
   float: left;
-  width: 50%;
+  width: 60%;
   height: 150px;
-  font-size: 24px;
   margin: 15px 0px;
   text-decoration: underline;
 }
 
 .department-name {
+  font-size: 20px;
   position: absolute;
   top: 25%;
 }
@@ -82,13 +81,13 @@ img {
 }
 
 .right-arrow {
-  width: 50%;
+  width: 40%;
   float: left;
   margin: 35px 0px 20px 0px;
 }
 
 .left-arrow {
-  width: 50%;
+  width: 40%;
   float: right;
   margin: 35px 0px 20px 0px;
 }

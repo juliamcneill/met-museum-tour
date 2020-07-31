@@ -10,10 +10,15 @@ class Questions extends React.Component {
       word3: "",
       word4: "",
       word5: "",
+      submitted: false,
+      seconds: 100,
     };
 
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.timer = 0;
+    this.startTimer = this.startTimer.bind(this);
+    this.countDown = this.countDown.bind(this);
   }
 
   handleFormChange(event) {
@@ -24,6 +29,10 @@ class Questions extends React.Component {
 
   handleFormSubmit(event) {
     event.preventDefault();
+    this.setState({
+      submitted: true,
+    });
+    this.startTimer();
     axios
       .get(
         `/generate?word1=${this.state.word1.toLowerCase()}&word2=${this.state.word2.toLowerCase()}&word3=${this.state.word3.toLowerCase()}&word4=${this.state.word4.toLowerCase()}&word5=${this.state.word5.toLowerCase()}`
@@ -41,6 +50,24 @@ class Questions extends React.Component {
         this.props.changeView("results");
       })
       .catch((error) => console.log(error));
+  }
+
+  startTimer() {
+    if (this.timer == 0 && this.state.seconds > 0) {
+      this.timer = setInterval(this.countDown, 100);
+    }
+  }
+
+  countDown() {
+    let seconds = this.state.seconds - 1;
+    this.setState({
+      time: seconds,
+      seconds: seconds,
+    });
+
+    if (seconds == 0) {
+      clearInterval(this.timer);
+    }
   }
 
   render() {
@@ -86,13 +113,15 @@ class Questions extends React.Component {
             Generate Tour
           </button>
         </form>
-        <div id="progressbar">
-          <div
-            style={{
-              width: "50%",
-            }}
-          ></div>
-        </div>
+        {this.state.submitted === true ? (
+          <div id="progressbar">
+            <div
+              style={{
+                width: ((100 - this.state.seconds) / 100) * 100 + "%",
+              }}
+            ></div>
+          </div>
+        ) : null}
       </div>
     );
   }

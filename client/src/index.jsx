@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./style.scss";
 
+import met from "../dist/assets/met.jpg";
+
 import Questions from "./components/questions.jsx";
 import Results from "./components/results.jsx";
 
@@ -66,6 +68,7 @@ class App extends React.Component {
             transition: "opacity .25s",
           }}
         >
+          <img src={met}></img>
           <button onClick={() => this.changeView("questions")}>
             Create New Tour
           </button>
