@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
-app.set("port", 3500);
+app.set("port", 3000);
 
 app.use(bodyParser.json());
 app.use("/", require("./calls"));
