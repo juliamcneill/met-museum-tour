@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./style.scss";
 
-import QuestionOne from "./components/questionOne.jsx";
+import Questions from "./components/questions.jsx";
 
 class App extends React.Component {
   constructor() {
@@ -20,9 +20,11 @@ class App extends React.Component {
 
   renderView() {
     if (this.state.view === "start") {
-      return <button onClick={() => this.changeView("quiz")}>Start</button>;
-    } else {
-      return <QuestionOne />;
+      return <button onClick={() => this.changeView("form")}>Start</button>;
+    } else if (this.state.view === "form") {
+      return <Questions />;
+    } else if (this.state.view === "results") {
+      return <Results />;
     }
   }
 
