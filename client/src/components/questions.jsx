@@ -81,7 +81,10 @@ class Questions extends React.Component {
         </button>
         <div>
           {this.state.results.map((object) => (
-            <div>{object.title}</div>
+            <div>
+              <div>{object.title}</div>
+              <img src={object.primaryImage} />
+            </div>
           ))}
         </div>
       </form>

@@ -4,8 +4,6 @@ const axios = require("axios");
 router.get("/generate", (req, res) => {
   var tracker = {};
 
-  console.log("running");
-
   var wordsArray = [
     req.query.word1,
     req.query.word2,
@@ -95,8 +93,9 @@ router.get("/generate", (req, res) => {
                     }
 
                     if (foundWord === true) {
-                      console.log(currentWord);
-                      console.log(fields);
+                      console.log(
+                        "found " + currentWord + " in " + fields.title
+                      );
                       if (tracker[currentObjectID] === undefined) {
                         tracker[currentObjectID] = 1;
                       } else {

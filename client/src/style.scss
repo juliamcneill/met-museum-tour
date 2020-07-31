@@ -1,7 +1,20 @@
 body {
   font-family: "PT Serif", sans-serif;
+  width: 80%;
   margin: 0px;
   color: #2c3e50;
   background-color: #f4f7f8;
   font-size: 1.1em;
+  overflow: hidden;
+}
+
+button {
+  display: block;
+  width: 80%;
+  margin: auto;
+}
+
+img {
+  display: block;
+  width: 80%;
 }
