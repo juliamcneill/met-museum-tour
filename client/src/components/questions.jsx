@@ -45,46 +45,55 @@ class Questions extends React.Component {
 
   render() {
     return (
-      <form>
-        <input
-          type="text"
-          placeholder="Enter word"
-          name="word1"
-          value={this.state.word1}
-          onChange={(event) => this.handleFormChange(event)}
-        ></input>
-        <input
-          type="text"
-          placeholder="Enter word"
-          name="word2"
-          value={this.state.word2}
-          onChange={(event) => this.handleFormChange(event)}
-        ></input>
-        <input
-          type="text"
-          placeholder="Enter word"
-          name="word3"
-          value={this.state.word3}
-          onChange={(event) => this.handleFormChange(event)}
-        ></input>
-        <input
-          type="text"
-          placeholder="Enter word"
-          name="word4"
-          value={this.state.word4}
-          onChange={(event) => this.handleFormChange(event)}
-        ></input>
-        <input
-          type="text"
-          placeholder="Enter word"
-          name="word5"
-          value={this.state.word5}
-          onChange={(event) => this.handleFormChange(event)}
-        ></input>
-        <button type="submit" onClick={this.handleFormSubmit}>
-          Generate Tour
-        </button>
-      </form>
+      <div>
+        <form>
+          <input
+            type="text"
+            placeholder="Enter word"
+            name="word1"
+            value={this.state.word1}
+            onChange={(event) => this.handleFormChange(event)}
+          ></input>
+          <input
+            type="text"
+            placeholder="Enter word"
+            name="word2"
+            value={this.state.word2}
+            onChange={(event) => this.handleFormChange(event)}
+          ></input>
+          <input
+            type="text"
+            placeholder="Enter word"
+            name="word3"
+            value={this.state.word3}
+            onChange={(event) => this.handleFormChange(event)}
+          ></input>
+          <input
+            type="text"
+            placeholder="Enter word"
+            name="word4"
+            value={this.state.word4}
+            onChange={(event) => this.handleFormChange(event)}
+          ></input>
+          <input
+            type="text"
+            placeholder="Enter word"
+            name="word5"
+            value={this.state.word5}
+            onChange={(event) => this.handleFormChange(event)}
+          ></input>
+          <button type="submit" onClick={this.handleFormSubmit}>
+            Generate Tour
+          </button>
+        </form>
+        <div id="progressbar">
+          <div
+            style={{
+              width: "50%",
+            }}
+          ></div>
+        </div>
+      </div>
     );
   }
 }
