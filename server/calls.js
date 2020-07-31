@@ -50,43 +50,54 @@ router.get("/generate", (req, res) => {
                   .then((details) => {
                     let foundWord = false;
                     let fields = details.data;
-
                     if (
-                      fields.department.toLowerCase().includes(currentWord) ||
-                      fields.objectName.toLowerCase().includes(currentWord) ||
-                      fields.title.toLowerCase().includes(currentWord) ||
-                      fields.culture.toLowerCase().includes(currentWord) ||
-                      fields.period.toLowerCase().includes(currentWord) ||
-                      fields.dynasty.toLowerCase().includes(wordsArray[h]) ||
-                      fields.reign.toLowerCase().includes(wordsArray[h]) ||
-                      fields.artistDisplayName
-                        .toLowerCase()
-                        .includes(wordsArray[h]) ||
-                      fields.artistDisplayBio
-                        .toLowerCase()
-                        .includes(wordsArray[h]) ||
-                      fields.artistAlphaSort
-                        .toLowerCase()
-                        .includes(wordsArray[h]) ||
-                      fields.artistNationality
-                        .toLowerCase()
-                        .includes(wordsArray[h]) ||
-                      fields.objectDate.toLowerCase().includes(wordsArray[h]) ||
-                      fields.creditLine.toLowerCase().includes(wordsArray[h]) ||
-                      fields.classification
-                        .toLowerCase()
-                        .includes(wordsArray[h])
+                      fields.department != "American Decorative Arts" &&
+                      fields.department != "Arms and Armor" &&
+                      fields.department != "The Cloisters" &&
+                      fields.department !=
+                        "European Sculpture and Decorative Arts"
                     ) {
-                      foundWord = true;
-                    } else {
-                      if (fields.tags != null) {
-                        for (let j = 0; j < fields.tags.length; j++) {
-                          if (
-                            fields.tags[j].term
-                              .toLowerCase()
-                              .includes(wordsArray[h])
-                          ) {
-                            foundWord = true;
+                      if (
+                        fields.department.toLowerCase().includes(currentWord) ||
+                        fields.objectName.toLowerCase().includes(currentWord) ||
+                        fields.title.toLowerCase().includes(currentWord) ||
+                        fields.culture.toLowerCase().includes(currentWord) ||
+                        fields.period.toLowerCase().includes(currentWord) ||
+                        fields.dynasty.toLowerCase().includes(wordsArray[h]) ||
+                        fields.reign.toLowerCase().includes(wordsArray[h]) ||
+                        fields.artistDisplayName
+                          .toLowerCase()
+                          .includes(wordsArray[h]) ||
+                        fields.artistDisplayBio
+                          .toLowerCase()
+                          .includes(wordsArray[h]) ||
+                        fields.artistAlphaSort
+                          .toLowerCase()
+                          .includes(wordsArray[h]) ||
+                        fields.artistNationality
+                          .toLowerCase()
+                          .includes(wordsArray[h]) ||
+                        fields.objectDate
+                          .toLowerCase()
+                          .includes(wordsArray[h]) ||
+                        fields.creditLine
+                          .toLowerCase()
+                          .includes(wordsArray[h]) ||
+                        fields.classification
+                          .toLowerCase()
+                          .includes(wordsArray[h])
+                      ) {
+                        foundWord = true;
+                      } else {
+                        if (fields.tags != null) {
+                          for (let j = 0; j < fields.tags.length; j++) {
+                            if (
+                              fields.tags[j].term
+                                .toLowerCase()
+                                .includes(wordsArray[h])
+                            ) {
+                              foundWord = true;
+                            }
                           }
                         }
                       }
@@ -158,7 +169,7 @@ router.get("/generate", (req, res) => {
             })
           )
           .catch((error) => console.log(error));
-      }, 10000);
+      }, 9000);
     })
     .catch((error) => console.log(error));
 });
