@@ -1,5 +1,9 @@
 import React from "react";
 
+import met from "../../dist/assets/met.jpg";
+import rightArrow from "../../dist/assets/rightArrow.jpg";
+import leftArrow from "../../dist/assets/leftArrow.jpg";
+
 class Results extends React.Component {
   constructor() {
     super();
@@ -15,15 +19,32 @@ class Results extends React.Component {
   render() {
     return (
       <div>
-        {Object.keys(this.props.results).map((key) => (
+        <img src={met}></img>
+        {Object.keys(this.props.results).map((key, index) => (
           <div>
-            <div className="department-name">{key}</div>
+            <img
+              className={index % 2 === 0 ? "left-arrow" : "right-arrow"}
+              src={index % 2 === 0 ? leftArrow : rightArrow}
+            ></img>
+            <div
+              className={
+                index % 2 === 0
+                  ? "right-department-name-container"
+                  : "left-department-name-container"
+              }
+            >
+              <div className="department-name">{key}</div>
+            </div>
             {this.props.results[key].map((object) => (
-              <div>
-                <div>{object.title}</div>
+              <div className="object-info">
+                <div className="object-title">{object.title}</div>
+                <div className="object-name">{object.artistDisplayName}</div>
+                <div className="object-medium">{object.medium}</div>
+                <div className="object-date">{object.objectDate}</div>
                 <img src={object.primaryImage} />
               </div>
             ))}
+            {console.log(index)}
           </div>
         ))}
 
