@@ -15,12 +15,18 @@ class Results extends React.Component {
   render() {
     return (
       <div>
-        {this.props.results.map((object) => (
+        {Object.keys(this.props.results).map((key) => (
           <div>
-            <div>{object.title}</div>
-            <img src={object.primaryImage} />
+            <div className="department-name">{key}</div>
+            {this.props.results[key].map((object) => (
+              <div>
+                <div>{object.title}</div>
+                <img src={object.primaryImage} />
+              </div>
+            ))}
           </div>
         ))}
+
         <button type="submit" onClick={this.handleClick}>
           Generate Another Tour
         </button>

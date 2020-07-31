@@ -29,8 +29,15 @@ class Questions extends React.Component {
         `/generate?word1=${this.state.word1.toLowerCase()}&word2=${this.state.word2.toLowerCase()}&word3=${this.state.word3.toLowerCase()}&word4=${this.state.word4.toLowerCase()}&word5=${this.state.word5.toLowerCase()}`
       )
       .then(({ data }) => {
-        console.log("finished!");
-        this.props.updateResults(data);
+        let sortedByDepartment = {};
+        for (var i = 0; i < data.length; i++) {
+          if (sortedByDepartment[data[i].department] === undefined) {
+            sortedByDepartment[data[i].department] = [data[i]];
+          } else {
+            sortedByDepartment[data[i].department].push(data[i]);
+          }
+        }
+        this.props.updateResults(sortedByDepartment);
         this.props.changeView("results");
       })
       .catch((error) => console.log(error));

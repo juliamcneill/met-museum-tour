@@ -158,7 +158,7 @@ router.get("/generate", (req, res) => {
             })
           )
           .catch((error) => console.log(error));
-      }, 20000);
+      }, 10000);
     })
     .catch((error) => console.log(error));
 });
