@@ -12,6 +12,7 @@ class Questions extends React.Component {
       word5: "",
       submitted: false,
       seconds: 100,
+      buttonText: "Generate Tour",
     };
 
     this.handleFormChange = this.handleFormChange.bind(this);
@@ -31,6 +32,7 @@ class Questions extends React.Component {
     event.preventDefault();
     this.setState({
       submitted: true,
+      buttonText: "Generating...",
     });
     this.startTimer();
     axios
@@ -110,7 +112,7 @@ class Questions extends React.Component {
             onChange={(event) => this.handleFormChange(event)}
           ></input>
           <button type="submit" onClick={this.handleFormSubmit}>
-            Generate Tour
+            {this.state.buttonText}
           </button>
         </form>
         {this.state.submitted === true ? (

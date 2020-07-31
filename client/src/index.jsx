@@ -12,7 +12,7 @@ class App extends React.Component {
     super();
     this.state = {
       view: "start",
-      results: [],
+      results: {},
       startTransition: "100%",
       questionsTransition: "0%",
       resultsTransition: "0%",
@@ -34,6 +34,7 @@ class App extends React.Component {
         startTransition: "100%",
         questionsTransition: "0%",
         resultsTransition: "0%",
+        results: {},
       });
     } else if (option === "questions") {
       this.setState({

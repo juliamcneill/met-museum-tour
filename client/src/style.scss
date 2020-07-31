@@ -48,8 +48,7 @@ img {
   float: right;
   width: 60%;
   height: 150px;
-  margin: 15px 0px;
-  text-decoration: underline;
+  margin: 20px 0px 5px 0px;
 }
 
 .left-department-name-container {
@@ -57,12 +56,12 @@ img {
   float: left;
   width: 60%;
   height: 150px;
-  margin: 15px 0px;
-  text-decoration: underline;
+  margin: 20px 0px 5px 0px;
 }
 
 .department-name {
   font-size: 20px;
+  text-decoration: underline;
   position: absolute;
   top: 25%;
 }
@@ -77,7 +76,11 @@ img {
 
 .object-medium,
 .object-date {
-  font-size: 16px;
+  font-size: 14px;
+}
+
+.object-image {
+  margin-bottom: 25px;
 }
 
 .right-arrow {
@@ -106,4 +109,8 @@ img {
   background-color: #2c3e50;
   border-radius: 8px;
   height: 10px;
+}
+
+#errorMessage {
+  text-align: center;
 }

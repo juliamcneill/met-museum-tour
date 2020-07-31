@@ -137,38 +137,42 @@ router.get("/generate", (req, res) => {
 
         console.log(sorted);
 
-        axios
-          .all([
-            axios.get(
-              `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[0][0]}`
-            ),
-            axios.get(
-              `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[1][0]}`
-            ),
-            axios.get(
-              `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[2][0]}`
-            ),
-            axios.get(
-              `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[3][0]}`
-            ),
-            axios.get(
-              `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[4][0]}`
-            ),
-          ])
-          .then(
-            axios.spread((object1, object2, object3, object4, object5) => {
-              res
-                .status(200)
-                .send([
-                  object1.data,
-                  object2.data,
-                  object3.data,
-                  object4.data,
-                  object5.data,
-                ]);
-            })
-          )
-          .catch((error) => console.log(error));
+        if (sorted.length >= 5) {
+          axios
+            .all([
+              axios.get(
+                `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[0][0]}`
+              ),
+              axios.get(
+                `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[1][0]}`
+              ),
+              axios.get(
+                `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[2][0]}`
+              ),
+              axios.get(
+                `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[3][0]}`
+              ),
+              axios.get(
+                `https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[4][0]}`
+              ),
+            ])
+            .then(
+              axios.spread((object1, object2, object3, object4, object5) => {
+                res
+                  .status(200)
+                  .send([
+                    object1.data,
+                    object2.data,
+                    object3.data,
+                    object4.data,
+                    object5.data,
+                  ]);
+              })
+            )
+            .catch((error) => console.log(error));
+        } else {
+          res.status(200).send([]);
+        }
       }, 9000);
     })
     .catch((error) => console.log(error));
