@@ -69,7 +69,10 @@ class App extends React.Component {
             transition: "opacity .25s",
           }}
         >
-          <img src={met}></img>
+          <img
+            src={met}
+            alt="Line drawing of the Metropolitan Museum of Art"
+          ></img>
           <button onClick={() => this.changeView("questions")}>
             Create New Tour
           </button>

@@ -19,7 +19,10 @@ class Results extends React.Component {
   render() {
     return (
       <div>
-        <img src={met}></img>
+        <img
+          src={met}
+          alt="Line drawing of the Metropolitan Museum of Art"
+        ></img>
         {Object.keys(this.props.results).length === 0 ? (
           <div id="errorMessage">Not enough results! Try again.</div>
         ) : (
@@ -28,6 +31,7 @@ class Results extends React.Component {
               <img
                 className={index % 2 === 0 ? "left-arrow" : "right-arrow"}
                 src={index % 2 === 0 ? leftArrow : rightArrow}
+                alt="Decorative arrow"
               ></img>
               <div
                 className={
@@ -44,7 +48,11 @@ class Results extends React.Component {
                   <div className="object-title">{object.title}</div>
                   <div className="object-medium">{object.medium}</div>
                   <div className="object-date">{object.objectDate}</div>
-                  <img className="object-image" src={object.primaryImage} />
+                  <img
+                    className="object-image"
+                    src={object.primaryImage}
+                    alt="Reproduction of artwork"
+                  />
                 </div>
               ))}
               {console.log(index)}
