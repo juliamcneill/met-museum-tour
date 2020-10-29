@@ -69,9 +69,9 @@ class App extends React.Component<{}, MyState> {
     if (this.state.view === "start") {
       return (
         <div
-          className="slowTransition"
           style={{
             opacity: this.state.startTransition,
+            transition: "opacity .25s",
           }}
         >
           <img
@@ -86,9 +86,9 @@ class App extends React.Component<{}, MyState> {
     } else if (this.state.view === "questions") {
       return (
         <div
-          className="quickTransition"
           style={{
             opacity: this.state.questionsTransition,
+            transition: "opacity .5s",
           }}
         >
           <Questions
@@ -100,9 +100,9 @@ class App extends React.Component<{}, MyState> {
     } else if (this.state.view === "results") {
       return (
         <div
-          className="quickTransition"
           style={{
             opacity: this.state.resultsTransition,
+            transition: "opacity .5s",
           }}
         >
           <Results results={this.state.results} changeView={this.changeView} />
