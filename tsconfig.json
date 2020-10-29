@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es5",                             
-    "module": "commonjs",                     
+    "module": "commonjs", 
+    "types": ["node"],                 
     "jsx": "react",                            
     "strict": true,                            
     "typeRoots" : ["node_modules/@types", "client/src/types"],
