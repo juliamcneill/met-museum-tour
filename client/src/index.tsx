@@ -7,9 +7,17 @@ import met from "../dist/assets/met.jpg";
 import Questions from "./components/questions.jsx";
 import Results from "./components/results.jsx";
 
-class App extends React.Component {
-  constructor() {
-    super();
+interface MyState {
+  view: string;
+  results: object;
+  startTransition: string;
+  questionsTransition: string;
+  resultsTransition: string;
+}
+
+class App extends React.Component<{}, MyState> {
+  constructor(props: {}) {
+    super(props);
     this.state = {
       view: "start",
       results: {},
@@ -22,7 +30,7 @@ class App extends React.Component {
     this.updateResults = this.updateResults.bind(this);
   }
 
-  changeView(option) {
+  changeView(option: string) {
     setTimeout(() => {
       this.setState({
         view: option,
@@ -51,7 +59,7 @@ class App extends React.Component {
     }
   }
 
-  updateResults(data) {
+  updateResults(data: object) {
     this.setState({
       results: data,
     });
@@ -61,12 +69,9 @@ class App extends React.Component {
     if (this.state.view === "start") {
       return (
         <div
+          className="slowTransition"
           style={{
             opacity: this.state.startTransition,
-            "-webkit-transition": "opacity .25s",
-            "-moz-transition": "opacity .25s",
-            "-o-transition": "opacity .25s",
-            transition: "opacity .25s",
           }}
         >
           <img
@@ -81,12 +86,9 @@ class App extends React.Component {
     } else if (this.state.view === "questions") {
       return (
         <div
+          className="quickTransition"
           style={{
             opacity: this.state.questionsTransition,
-            "-webkit-transition": "opacity .5s",
-            "-moz-transition": "opacity .5s",
-            "-o-transition": "opacity .5s",
-            transition: "opacity .5s",
           }}
         >
           <Questions
@@ -98,12 +100,9 @@ class App extends React.Component {
     } else if (this.state.view === "results") {
       return (
         <div
+          className="quickTransition"
           style={{
             opacity: this.state.resultsTransition,
-            "-webkit-transition": "opacity .5s",
-            "-moz-transition": "opacity .5s",
-            "-o-transition": "opacity .5s",
-            transition: "opacity .5s",
           }}
         >
           <Results results={this.state.results} changeView={this.changeView} />
