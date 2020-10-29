@@ -5,7 +5,7 @@ import "./style.scss";
 import met from "../dist/assets/met.jpg";
 
 import Questions from "./components/questions.jsx";
-import Results from "./components/results.jsx";
+import Results from "./components/results.tsx";
 
 interface MyState {
   view: string;

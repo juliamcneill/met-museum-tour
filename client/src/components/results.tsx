@@ -4,10 +4,22 @@ import met from "../../dist/assets/met.jpg";
 import rightArrow from "../../dist/assets/rightArrow.jpg";
 import leftArrow from "../../dist/assets/leftArrow.jpg";
 
-class Results extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
+interface MyProps {
+  results: any;
+  changeView: Function;
+}
+
+interface Object {
+  artistDisplayName?: string;
+  title?: string;
+  medium?: string;
+  objectDate?: string;
+  primaryImage?: string;
+}
+
+class Results extends React.Component<MyProps> {
+  constructor(props: { results: any; changeView: Function }) {
+    super(props);
 
     this.handleClick = this.handleClick.bind(this);
   }
@@ -42,7 +54,7 @@ class Results extends React.Component {
               >
                 <div className="department-name">{key}</div>
               </div>
-              {this.props.results[key].map((object) => (
+              {this.props.results[key].map((object: Object) => (
                 <div className="object-info">
                   <div className="object-name">{object.artistDisplayName}</div>
                   <div className="object-title">{object.title}</div>
