@@ -1,7 +1,7 @@
 {
   "name": "met-museum-tour",
-  "version": "1.0.0",
   "description": "Mobile application that generates a customized tour of the MET Museum of Art based on a user's interests.",
+  "author": "Julia McNeill",
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
@@ -9,8 +9,6 @@
     "heroku-postbuild": "webpack -p",
     "tsc": "tsc"
   },
-  "author": "Julia McNeill",
-  "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.0.1",
     "@babel/preset-env": "^7.0.0",
