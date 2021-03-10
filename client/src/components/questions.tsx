@@ -1,63 +1,31 @@
-import React from "react";
-import axios from "axios";
+import React, { useCallback, useState } from 'react';
+import axios from 'axios';
+import { useBooleanState } from '../hooks/useBooleanState';
 
-interface MyState {
-  word1: string;
-  word2: string;
-  word3: string;
-  word4: string;
-  word5: string;
-  value: string;
-  submitted: boolean;
-  seconds: number;
-  time: number;
-  buttonText: string;
+interface Props {
+  setResults: (results: object) => void;
+  changeView: (view: string) => void;
 }
 
-interface MyProps {
-  updateResults: Function;
-  changeView: Function;
-}
+export const Questions: React.FC<Props> = ({ setResults, changeView }) => {
+  const [timer, setTimer] = useState<number>(0);
+  const [word1, setWord1] = useState<string>('');
+  const [word2, setWord2] = useState<string>('');
+  const [word3, setWord3] = useState<string>('');
+  const [word4, setWord4] = useState<string>('');
+  const [word5, setWord5] = useState<string>('');
+  const [submitted, , submit] = useBooleanState(false);
+  const [seconds, setSeconds] = useState<number>(100);
+  const [buttonText, setButtonText] = useState<string>('Generate Tour');
 
-class Questions extends React.Component<MyProps, MyState> {
-  timer: number;
+  const handleFormSubmit = useCallback(() => {
+    submit();
+    setButtonText('Generating...');
+    startTimer();
 
-  constructor(props: { updateResults: Function; changeView: Function }) {
-    super(props);
-    this.state = {
-      word1: "",
-      word2: "",
-      word3: "",
-      word4: "",
-      word5: "",
-      value: "",
-      submitted: false,
-      seconds: 100,
-      time: 0,
-      buttonText: "Generate Tour",
-    };
-
-    this.handleFormChange = this.handleFormChange.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.timer = 0;
-    this.startTimer = this.startTimer.bind(this);
-    this.countDown = this.countDown.bind(this);
-  }
-
-  handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ ...this.state, [event.target.name]: event.target.value });
-  }
-
-  handleFormSubmit(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    this.setState({
-      submitted: true,
-      buttonText: "Generating...",
-    });
-    this.startTimer();
     axios
       .get(
-        `/generate?word1=${this.state.word1.toLowerCase()}&word2=${this.state.word2.toLowerCase()}&word3=${this.state.word3.toLowerCase()}&word4=${this.state.word4.toLowerCase()}&word5=${this.state.word5.toLowerCase()}`
+        `/generate?word1=${word1.toLowerCase()}&word2=${word2.toLowerCase()}&word3=${word3.toLowerCase()}&word4=${word4.toLowerCase()}&word5=${word5.toLowerCase()}`
       )
       .then(({ data }) => {
         let sortedByDepartment: any = {};
@@ -68,88 +36,79 @@ class Questions extends React.Component<MyProps, MyState> {
             sortedByDepartment[data[i].department].push(data[i]);
           }
         }
-        this.props.updateResults(sortedByDepartment);
-        this.props.changeView("results");
+        setResults(sortedByDepartment);
+        changeView('results');
       })
       .catch((error) => console.log(error));
-  }
+  }, [setResults, changeView]);
 
-  startTimer() {
-    if (this.timer == 0 && this.state.seconds > 0) {
-      this.timer = window.setInterval(this.countDown, 100);
+  const startTimer = useCallback(() => {
+    if (timer == 0 && seconds > 0) {
+      setTimer(window.setInterval(countDown, 100));
     }
-  }
+  }, []);
 
-  countDown() {
-    let seconds: number = this.state.seconds - 1;
-    this.setState({
-      time: seconds,
-      seconds: seconds,
-    });
+  const countDown = useCallback(() => {
+    setSeconds(seconds - 1);
 
     if (seconds == 0) {
-      clearInterval(this.timer);
+      clearInterval(timer);
     }
-  }
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <form>
-          <input
-            type="text"
-            placeholder="Enter word"
-            name="word1"
-            value={this.state.word1}
-            onChange={(event) => this.handleFormChange(event)}
-          ></input>
-          <input
-            type="text"
-            placeholder="Enter word"
-            name="word2"
-            value={this.state.word2}
-            onChange={(event) => this.handleFormChange(event)}
-          ></input>
-          <input
-            type="text"
-            placeholder="Enter word"
-            name="word3"
-            value={this.state.word3}
-            onChange={(event) => this.handleFormChange(event)}
-          ></input>
-          <input
-            type="text"
-            placeholder="Enter word"
-            name="word4"
-            value={this.state.word4}
-            onChange={(event) => this.handleFormChange(event)}
-          ></input>
-          <input
-            type="text"
-            placeholder="Enter word"
-            name="word5"
-            value={this.state.word5}
-            onChange={(event) => this.handleFormChange(event)}
-          ></input>
-          <button
-            type="submit"
-            onClick={(event) => this.handleFormSubmit(event)}
-          >
-            {this.state.buttonText}
-          </button>
-        </form>
-        {this.state.submitted === true ? (
-          <div id="progressbar">
-            <div
-              style={{
-                width: ((100 - this.state.seconds) / 100) * 100 + "%",
-              }}
-            ></div>
-          </div>
-        ) : null}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <form>
+        <input
+          type="text"
+          placeholder="Enter word"
+          name="word1"
+          value={word1}
+          onChange={(event) => setWord1(event.target.value)}
+        ></input>
+        <input
+          type="text"
+          placeholder="Enter word"
+          name="word2"
+          value={word2}
+          onChange={(event) => setWord2(event.target.value)}
+        ></input>
+        <input
+          type="text"
+          placeholder="Enter word"
+          name="word3"
+          value={word3}
+          onChange={(event) => setWord3(event.target.value)}
+        ></input>
+        <input
+          type="text"
+          placeholder="Enter word"
+          name="word4"
+          value={word4}
+          onChange={(event) => setWord4(event.target.value)}
+        ></input>
+        <input
+          type="text"
+          placeholder="Enter word"
+          name="word5"
+          value={word5}
+          onChange={(event) => setWord5(event.target.value)}
+        ></input>
+        <button type="submit" onClick={handleFormSubmit}>
+          {buttonText}
+        </button>
+      </form>
+      {submitted === true ? (
+        <div id="progressbar">
+          <div
+            style={{
+              width: ((100 - seconds) / 100) * 100 + '%',
+            }}
+          ></div>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 export default Questions;
