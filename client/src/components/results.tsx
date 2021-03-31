@@ -51,7 +51,6 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                 />
               </div>
             ))}
-            {console.log(index)}
           </div>
         ))
       )}

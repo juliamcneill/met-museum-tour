@@ -79,7 +79,7 @@ const App: React.FC = ({}) => {
       default:
         return null;
     }
-  }, []);
+  }, [view]);
 
   return <div>{renderView}</div>;
 };

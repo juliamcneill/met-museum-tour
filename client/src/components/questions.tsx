@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import axios from 'axios';
 import { useBooleanState } from '../hooks.tsx';
 
@@ -8,53 +8,63 @@ interface Props {
 }
 
 const Questions: React.FC<Props> = ({ setResults, changeView }) => {
-  const [timer, setTimer] = useState<number>(0);
   const [word1, setWord1] = useState<string>('');
   const [word2, setWord2] = useState<string>('');
   const [word3, setWord3] = useState<string>('');
   const [word4, setWord4] = useState<string>('');
   const [word5, setWord5] = useState<string>('');
-  const [submitted, , submit] = useBooleanState(false);
+  const [submitted, submit] = useBooleanState(false);
   const [seconds, setSeconds] = useState<number>(100);
   const [buttonText, setButtonText] = useState<string>('Generate Tour');
 
-  const handleFormSubmit = useCallback(() => {
-    submit();
-    setButtonText('Generating...');
-    startTimer();
+  const interval: any = useRef(null);
+  const startTimer = () => {
+    interval.current = setInterval(() => {
+      setSeconds((seconds) => seconds - 1);
+      if (seconds <= 1) {
+        clearInterval(interval.current);
+      }
+    }, 100);
+  };
 
-    axios
-      .get(
-        `/generate?word1=${word1.toLowerCase()}&word2=${word2.toLowerCase()}&word3=${word3.toLowerCase()}&word4=${word4.toLowerCase()}&word5=${word5.toLowerCase()}`
-      )
-      .then(({ data }) => {
-        let sortedByDepartment: any = {};
-        for (var i = 0; i < data.length; i++) {
-          if (sortedByDepartment[data[i].department] === undefined) {
-            sortedByDepartment[data[i].department] = [data[i]];
-          } else {
-            sortedByDepartment[data[i].department].push(data[i]);
+  const handleFormSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      submit();
+      setButtonText('Generating...');
+      startTimer();
+
+      axios
+        .get(
+          `/generate?word1=${word1.toLowerCase()}&word2=${word2.toLowerCase()}&word3=${word3.toLowerCase()}&word4=${word4.toLowerCase()}&word5=${word5.toLowerCase()}`
+        )
+        .then(({ data }) => {
+          let sortedByDepartment: any = {};
+          for (var i = 0; i < data.length; i++) {
+            if (sortedByDepartment[data[i].department] === undefined) {
+              sortedByDepartment[data[i].department] = [data[i]];
+            } else {
+              sortedByDepartment[data[i].department].push(data[i]);
+            }
           }
-        }
-        setResults(sortedByDepartment);
-        changeView('results');
-      })
-      .catch((error) => console.log(error));
-  }, [setResults, changeView]);
-
-  const startTimer = useCallback(() => {
-    if (timer == 0 && seconds > 0) {
-      setTimer(window.setInterval(countDown, 100));
-    }
-  }, []);
-
-  const countDown = useCallback(() => {
-    setSeconds(seconds - 1);
-
-    if (seconds == 0) {
-      clearInterval(timer);
-    }
-  }, []);
+          setResults(sortedByDepartment);
+          changeView('results');
+        })
+        .catch((error) => console.log(error));
+    },
+    [
+      submit,
+      setButtonText,
+      startTimer,
+      setResults,
+      changeView,
+      word1,
+      word2,
+      word3,
+      word4,
+      word5,
+    ]
+  );
 
   return (
     <div>
@@ -94,7 +104,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
           value={word5}
           onChange={(event) => setWord5(event.target.value)}
         ></input>
-        <button type="submit" onClick={handleFormSubmit}>
+        <button type="submit" disabled={submitted} onClick={handleFormSubmit}>
           {buttonText}
         </button>
       </form>
