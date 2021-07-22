@@ -1,43 +1,72 @@
 {
-  "name": "met-museum-tour",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/juliamcneill/met-museum-tour.git"
-  },
-  "description": "Mobile application that generates a customized tour of the MET Museum of Art based on a user's interests.",
-  "author": "Julia McNeill",
-  "license": "UNLICENSED",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server/index.js",
-    "dev": "webpack -d --watch",
-    "heroku-postbuild": "webpack -p",
-    "tsc": "tsc"
-  },
-  "dependencies": {
-    "@babel/core": "~7.0.1",
-    "@babel/preset-env": "~7.0.0",
-    "@babel/preset-react": "~7.0.0",
-    "@material-ui/core": "~4.11.3",
-    "@types/react": "~16.9.56",
-    "@types/react-dom": "~16.9.12",
-    "axios": "~0.21.1",
-    "babel-loader": "~8.0.2",
-    "body-parser": "~1.19.0",
-    "css-loader": "~4.1.1",
-    "express": "~4.17.1",
-    "file-loader": "~6.0.0",
-    "nodemon": "~2.0.7",
-    "react": "~16.13.1",
-    "react-dom": "~16.13.1",
-    "react-transition-group": "~4.4.1",
-    "sass": "~1.26.10",
-    "sass-loader": "~7.3.1",
-    "style-loader": "~1.2.1",
-    "ts-loader": "~8.0.18",
-    "typescript": "~4.0.7",
-    "webpack": "^4.46.0",
-    "webpack-cli": "~3.1.2",
-    "webpack-dev-server": "~3.1.14"
-  }
+    "name": "met-museum-tour",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/juliamcneill/met-museum-tour.git"
+    },
+    "description": "Mobile application that generates a customized tour of the MET Museum of Art based on a user's interests.",
+    "author": "Julia McNeill",
+    "license": "UNLICENSED",
+    "main": "index.js",
+    "scripts": {
+        "start": "node server/index.js",
+        "dev": "webpack -d --watch",
+        "heroku-postbuild": "webpack -p",
+        "tsc": "tsc"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,jsx}": [
+            "prettier --write",
+            "eslint --fix",
+            "git add"
+        ],
+        "*.{html,css,less,ejs}": [
+            "prettier --write",
+            "git add"
+        ]
+    },
+    "dependencies": {
+        "@babel/core": "~7.0.1",
+        "@babel/preset-env": "~7.0.0",
+        "@babel/preset-react": "~7.0.0",
+        "@material-ui/core": "~4.11.3",
+        "@types/react": "~16.9.56",
+        "@types/react-dom": "~16.9.12",
+        "axios": "~0.21.1",
+        "babel-loader": "~8.0.2",
+        "body-parser": "~1.19.0",
+        "css-loader": "~4.1.1",
+        "express": "~4.17.1",
+        "file-loader": "~6.0.0",
+        "husky": "^7.0.1",
+        "lint-staged": "^11.0.1",
+        "nodemon": "~2.0.7",
+        "prettier": "^2.3.2",
+        "react": "~16.13.1",
+        "react-dom": "~16.13.1",
+        "react-transition-group": "~4.4.1",
+        "sass": "~1.26.10",
+        "sass-loader": "~7.3.1",
+        "style-loader": "~1.2.1",
+        "ts-loader": "~8.0.18",
+        "typescript": "~4.0.7",
+        "webpack": "^4.46.0",
+        "webpack-cli": "~3.1.2",
+        "webpack-dev-server": "~3.1.14"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^4.28.4",
+        "@typescript-eslint/parser": "^4.28.4",
+        "eslint": "^7.31.0",
+        "eslint-config-airbnb": "^18.2.1",
+        "eslint-plugin-import": "^2.23.4",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-react": "^7.24.0",
+        "eslint-plugin-react-hooks": "^4.2.0"
+    }
 }
