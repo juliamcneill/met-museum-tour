@@ -2,6 +2,7 @@ import React from 'react';
 import met from '../../dist/assets/met.jpg';
 import rightArrow from '../../dist/assets/rightArrow.jpg';
 import leftArrow from '../../dist/assets/leftArrow.jpg';
+import { Button } from '@material-ui/core';
 
 interface Props {
     results: any;
@@ -49,9 +50,9 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                 ))
             )}
 
-            <button type="submit" onClick={() => changeView('start')}>
+            <Button variant="outlined" onClick={() => changeView('start')}>
                 Generate Another Tour
-            </button>
+            </Button>
         </div>
     );
 };

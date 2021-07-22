@@ -1,6 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useBooleanState } from '../hooks.tsx';
+import { Button, LinearProgress } from '@material-ui/core';
 
 interface Props {
     setResults: (results: object) => void;
@@ -14,16 +15,17 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     const [word4, setWord4] = useState<string>('');
     const [word5, setWord5] = useState<string>('');
     const [submitted, submit] = useBooleanState(false);
-    const [seconds, setSeconds] = useState<number>(100);
+    const [progress, setProgress] = useState<number>(0);
     const [buttonText, setButtonText] = useState<string>('Generate Tour');
 
     const interval: any = useRef(null);
     const startTimer = () => {
         interval.current = setInterval(() => {
-            setSeconds((seconds) => seconds - 1);
-            if (seconds <= 1) {
+            if (progress >= 100) {
                 clearInterval(interval.current);
             }
+
+            setProgress((progress) => (progress < 100 ? progress + 1 : 100));
         }, 100);
     };
 
@@ -93,19 +95,15 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     value={word5}
                     onChange={(event) => setWord5(event.target.value)}
                 ></input>
-                <button type="submit" disabled={submitted} onClick={handleFormSubmit}>
+                <Button variant="outlined" onClick={handleFormSubmit}>
                     {buttonText}
-                </button>
+                </Button>
             </form>
-            {submitted === true ? (
+            {submitted === true && (
                 <div id="progressbar">
-                    <div
-                        style={{
-                            width: ((100 - seconds) / 100) * 100 + '%',
-                        }}
-                    ></div>
+                    <LinearProgress variant="determinate" value={progress} />
                 </div>
-            ) : null}
+            )}
         </div>
     );
 };
