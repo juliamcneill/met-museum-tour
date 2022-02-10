@@ -1,0 +1,3 @@
+#!/bin/sh
+export HUSKY_GIT_PARAMS=$1
+npx commitlint --color -E HUSKY_GIT_PARAMS
