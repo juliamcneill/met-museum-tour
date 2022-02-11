@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import axios from 'axios';
 import { useBooleanState } from '../hooks.tsx';
 import { Button, LinearProgress } from '@material-ui/core';
@@ -19,7 +19,8 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     const [buttonText, setButtonText] = useState<string>('Generate Tour');
 
     const interval: any = useRef(null);
-    const startTimer = () => {
+
+    const startTimer = useCallback(() => {
         interval.current = setInterval(() => {
             if (progress >= 100) {
                 clearInterval(interval.current);
@@ -27,7 +28,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
 
             setProgress((progress) => (progress < 100 ? progress + 1 : 100));
         }, 100);
-    };
+    }, [interval, progress, setProgress]);
 
     const handleFormSubmit = useCallback(
         (event) => {
@@ -41,8 +42,8 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     `/generate?word1=${word1.toLowerCase()}&word2=${word2.toLowerCase()}&word3=${word3.toLowerCase()}&word4=${word4.toLowerCase()}&word5=${word5.toLowerCase()}`,
                 )
                 .then(({ data }) => {
-                    let sortedByDepartment: any = {};
-                    for (var i = 0; i < data.length; i++) {
+                    const sortedByDepartment: any = {};
+                    for (let i = 0; i < data.length; i++) {
                         if (sortedByDepartment[data[i].department] === undefined) {
                             sortedByDepartment[data[i].department] = [data[i]];
                         } else {
@@ -52,9 +53,44 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     setResults(sortedByDepartment);
                     changeView('results');
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => alert(error.message));
         },
         [submit, setButtonText, startTimer, setResults, changeView, word1, word2, word3, word4, word5],
+    );
+
+    const handleSetWord1 = useCallback(
+        ({ target }) => {
+            setWord1(target.value);
+        },
+        [setWord1],
+    );
+
+    const handleSetWord2 = useCallback(
+        ({ target }) => {
+            setWord2(target.value);
+        },
+        [setWord2],
+    );
+
+    const handleSetWord3 = useCallback(
+        ({ target }) => {
+            setWord3(target.value);
+        },
+        [setWord3],
+    );
+
+    const handleSetWord4 = useCallback(
+        ({ target }) => {
+            setWord4(target.value);
+        },
+        [setWord4],
+    );
+
+    const handleSetWord5 = useCallback(
+        ({ target }) => {
+            setWord5(target.value);
+        },
+        [setWord5],
     );
 
     return (
@@ -65,35 +101,35 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     placeholder="Enter word"
                     name="word1"
                     value={word1}
-                    onChange={(event) => setWord1(event.target.value)}
+                    onChange={handleSetWord1}
                 ></input>
                 <input
                     type="text"
                     placeholder="Enter word"
                     name="word2"
                     value={word2}
-                    onChange={(event) => setWord2(event.target.value)}
+                    onChange={handleSetWord2}
                 ></input>
                 <input
                     type="text"
                     placeholder="Enter word"
                     name="word3"
                     value={word3}
-                    onChange={(event) => setWord3(event.target.value)}
+                    onChange={handleSetWord3}
                 ></input>
                 <input
                     type="text"
                     placeholder="Enter word"
                     name="word4"
                     value={word4}
-                    onChange={(event) => setWord4(event.target.value)}
+                    onChange={handleSetWord4}
                 ></input>
                 <input
                     type="text"
                     placeholder="Enter word"
                     name="word5"
                     value={word5}
-                    onChange={(event) => setWord5(event.target.value)}
+                    onChange={handleSetWord5}
                 ></input>
                 <Button variant="outlined" onClick={handleFormSubmit}>
                     {buttonText}
