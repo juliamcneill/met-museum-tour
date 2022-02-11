@@ -1,13 +1,27 @@
 {
-  "compilerOptions": {
-    "target": "es5",                             
-    "module": "commonjs", 
-    "types": [],                 
-    "jsx": "react",                            
-    "strict": true,                            
-    "typeRoots" : ["node_modules/@types", "client/src/types"],
-    "esModuleInterop": true,                   
-    "skipLibCheck": true,                    
-    "forceConsistentCasingInFileNames": true    
-  }
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "./build",
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "strictBindCallApply": true,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "noUnusedLocals": false,
+        "downlevelIteration": true,
+        "target": "es2017",
+        "jsx": "react",
+        "allowJs": true,
+        "lib": ["es2017", "es2019", "dom", "esnext.asynciterable", "webworker"],
+        "module": "es2015",
+        "baseUrl": "./",
+        "resolveJsonModule": true
+    },
+    "include": ["client/src/index.tsx"]
 }

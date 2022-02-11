@@ -1,16 +1,17 @@
+@import './colors';
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,700;1,600&display=swap');
 
 body {
     font-family: 'Work Sans', Helvetica, sans-serif;
     width: 80%;
     margin: 20px auto;
-    color: #2c3e50;
+    color: $primary-text;
     font-size: 1.1em;
 }
 
 .MuiButton-root,
 input {
-    background-color: white;
+    background-color: $primary-bg;
     font-family: 'Work Sans', Helvetica, sans-serif;
     font-weight: 500;
     display: block;
@@ -20,13 +21,13 @@ input {
 
 input {
     border: none;
-    border-bottom: 0.5px solid #2c3e50;
+    border-bottom: 0.5px solid $primary-text;
     margin-bottom: 15px;
     height: 30px;
 }
 
 input:focus {
-    caret-color: #2c3e50;
+    caret-color: $primary-text;
     outline: none;
 }
 
@@ -34,7 +35,7 @@ input:focus {
     text-transform: none;
     padding: 10px;
     border-radius: 8px;
-    border-color: #2c3e50;
+    border-color: $primary-text;
     margin-top: 30px;
 }
 
@@ -49,7 +50,7 @@ img {
     float: right;
     width: 60%;
     height: 150px;
-    margin: 20px 0px 5px 0px;
+    margin: 20px 0 5px 0;
 }
 
 .left-department-name-container {
@@ -57,7 +58,7 @@ img {
     float: left;
     width: 60%;
     height: 150px;
-    margin: 20px 0px 5px 0px;
+    margin: 20px 0 5px 0;
 }
 
 .department-name {
@@ -87,18 +88,18 @@ img {
 .right-arrow {
     width: 40%;
     float: left;
-    margin: 35px 0px 20px 0px;
+    margin: 35px 0 20px 0;
 }
 
 .left-arrow {
     width: 40%;
     float: right;
-    margin: 35px 0px 20px 0px;
+    margin: 35px 0 20px 0;
 }
 
 #progressbar {
-    background-color: white;
-    border: 0.5px solid #2c3e50;
+    background-color: $primary-bg;
+    border: 0.5px solid $primary-text;
     border-radius: 8px;
     width: 80%;
     margin: 40px auto;
@@ -107,13 +108,13 @@ img {
 }
 
 .MuiLinearProgress-root {
-    background-color: white;
+    background-color: $primary-bg;
     height: 10px;
     border-radius: 8px;
 }
 
 .MuiLinearProgress-bar {
-    background-color: #2c3e50;
+    background-color: $primary-text;
 }
 
 #errorMessage {

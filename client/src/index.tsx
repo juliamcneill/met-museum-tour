@@ -34,6 +34,10 @@ const App: React.FC = ({}) => {
         }
     }, []);
 
+    const changeViewToQuestions = useCallback(() => {
+        changeView('questions');
+    }, [changeView]);
+
     const renderView = useMemo(() => {
         switch (view) {
             case 'start':
@@ -45,7 +49,7 @@ const App: React.FC = ({}) => {
                         }}
                     >
                         <img src={met} alt="Line drawing of the Metropolitan Museum of Art"></img>
-                        <Button variant="outlined" onClick={() => changeView('questions')}>
+                        <Button variant="outlined" onClick={changeViewToQuestions}>
                             Create New Tour
                         </Button>
                     </div>
@@ -75,7 +79,7 @@ const App: React.FC = ({}) => {
             default:
                 return null;
         }
-    }, [view]);
+    }, [view, changeView, changeViewToQuestions, questionsTransition, results, resultsTransition, startTransition]);
 
     return (
         <StylesProvider injectFirst>

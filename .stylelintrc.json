@@ -1,0 +1,16 @@
+{
+    "extends": ["stylelint-config-standard", "stylelint-config-prettier", "stylelint-config-recommended-scss"],
+    "rules": {
+        "color-no-hex": true,
+        "color-hex-length": null,
+        "no-descending-specificity": null,
+        "function-name-case": null,
+        "value-keyword-case": null,
+        "selector-type-no-unknown": [
+            true,
+            {
+                "ignore": ["custom-elements"]
+            }
+        ]
+    }
+}

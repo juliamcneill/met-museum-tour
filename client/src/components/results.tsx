@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import met from '../../dist/assets/met.jpg';
 import rightArrow from '../../dist/assets/rightArrow.jpg';
 import leftArrow from '../../dist/assets/leftArrow.jpg';
@@ -17,6 +17,10 @@ interface Object {
 }
 
 const Results: React.FC<Props> = ({ results, changeView }) => {
+    const changeViewToStart = useCallback(() => {
+        changeView('start');
+    }, [changeView]);
+
     return (
         <div>
             <img src={met} alt="Line drawing of the Metropolitan Museum of Art"></img>
@@ -24,7 +28,7 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                 <div id="errorMessage">Not enough results! Try again.</div>
             ) : (
                 Object.keys(results).map((key, index) => (
-                    <div>
+                    <div key={key}>
                         <img
                             className={index % 2 === 0 ? 'left-arrow' : 'right-arrow'}
                             src={index % 2 === 0 ? leftArrow : rightArrow}
@@ -38,7 +42,7 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                             <div className="department-name">{key}</div>
                         </div>
                         {results[key].map((object: Object) => (
-                            <div className="object-info">
+                            <div className="object-info" key={key + object.title}>
                                 <div className="object-name">{object.artistDisplayName}</div>
                                 <div className="object-title">{object.title}</div>
                                 <div className="object-medium">{object.medium}</div>
@@ -50,7 +54,7 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                 ))
             )}
 
-            <Button variant="outlined" onClick={() => changeView('start')}>
+            <Button variant="outlined" onClick={changeViewToStart}>
                 Generate Another Tour
             </Button>
         </div>
