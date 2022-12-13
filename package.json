@@ -42,7 +42,7 @@
         "commitlint-config-jira": "^1.5.2",
         "commitlint-plugin-jira-rules": "^1.5.1",
         "css-loader": "~4.1.1",
-        "express": "~4.17.1",
+        "express": "~4.17.3",
         "file-loader": "~6.0.0",
         "husky": "^7.0.1",
         "lint-staged": "^11.0.1",
