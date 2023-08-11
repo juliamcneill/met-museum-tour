@@ -13,8 +13,8 @@
     },
     "scripts": {
         "start": "node server/index.js --watch",
-        "dev": "webpack --watch",
-        "heroku-postbuild": "webpack -p",
+        "dev": "webpack --mode development --watch",
+        "heroku-postbuild": "webpack --mode production",
         "tsc": "tsc",
         "stylelint": "npx stylelint **/*.scss"
     },
