@@ -1,9 +1,17 @@
 var path = require('path');
 var SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
+var webpack = require('webpack');
 
 module.exports = {
+    mode: 'none',
+    devtool: process.env.NODE_ENV === 'production' ? 'source-map' : false,
     entry: `${SRC_DIR}/index.tsx`,
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        }),
+    ],
     output: {
         filename: 'bundle.js',
         path: DIST_DIR,
@@ -13,25 +21,24 @@ module.exports = {
             {
                 test: /\.jsx?/,
                 include: SRC_DIR,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['@babel/preset-env', '@babel/preset-react'],
-                },
+                use: 'babel-loader',
             },
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/,
             },
             {
                 test: /\.scss$/i,
-                loaders: ['style-loader', 'css-loader', 'sass-loader'],
+                use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
                 include: DIST_DIR,
-                loader: 'file-loader',
+                use: 'file-loader',
             },
         ],
+    },
+    resolve: {
+        extensions: ['.js', '.ts', '.tsx'],
     },
 };

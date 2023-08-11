@@ -23,5 +23,5 @@
         "baseUrl": "./",
         "resolveJsonModule": true
     },
-    "include": ["client/src/index.tsx"]
+    "include": ["client/src/index.tsx", "client/src/images.d.ts"]
 }
