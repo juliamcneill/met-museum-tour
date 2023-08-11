@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import met from '../../dist/assets/met.jpg';
 import rightArrow from '../../dist/assets/rightArrow.jpg';
 import leftArrow from '../../dist/assets/leftArrow.jpg';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 
 interface Props {
     results: any;

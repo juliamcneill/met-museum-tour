@@ -1,10 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import ReactDOM from 'react-dom';
+import React, { StrictMode, useCallback, useMemo, useState } from 'react';
 import './style.scss';
 import met from '../dist/assets/met.jpg';
-import Questions from './components/questions.tsx';
-import Results from './components/results.tsx';
-import { Button, StylesProvider } from '@material-ui/core';
+import Questions from './components/questions';
+import Results from './components/results';
+import { Button } from '@mui/material';
+import { createRoot } from 'react-dom/client';
+import { StyledEngineProvider } from '@mui/material/styles';
 
 const App: React.FC = ({}) => {
     const [view, setView] = useState<string>('start');
@@ -82,10 +83,19 @@ const App: React.FC = ({}) => {
     }, [view, changeView, changeViewToQuestions, questionsTransition, results, resultsTransition, startTransition]);
 
     return (
-        <StylesProvider injectFirst>
+        <StyledEngineProvider injectFirst>
             <div>{renderView}</div>
-        </StylesProvider>
+        </StyledEngineProvider>
     );
 };
 
-ReactDOM.render(<App />, document.getElementById('app'));
+const rootElement = document.getElementById('app');
+if (!rootElement) throw new Error('Failed to find the root element');
+
+const root = createRoot(rootElement);
+
+root.render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+);

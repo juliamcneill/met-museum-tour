@@ -1,7 +1,5 @@
 node_modules/
 client/dist/
-**/*.js
-**/*.scss.d.ts
-tsconfig.json
 README.md
-.**
+.node-version
+.prettierignore

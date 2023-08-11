@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import axios from 'axios';
-import { useBooleanState } from '../hooks.tsx';
-import { Button, LinearProgress } from '@material-ui/core';
+import { useBooleanState } from '../hooks';
+import { Button, LinearProgress } from '@mui/material';
 
 interface Props {
     setResults: (results: object) => void;
@@ -31,7 +31,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     }, [interval, progress, setProgress]);
 
     const handleFormSubmit = useCallback(
-        (event) => {
+        (event: any) => {
             event.preventDefault();
             submit();
             setButtonText('Generating...');
@@ -59,35 +59,35 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     );
 
     const handleSetWord1 = useCallback(
-        ({ target }) => {
+        ({ target }: any) => {
             setWord1(target.value);
         },
         [setWord1],
     );
 
     const handleSetWord2 = useCallback(
-        ({ target }) => {
+        ({ target }: any) => {
             setWord2(target.value);
         },
         [setWord2],
     );
 
     const handleSetWord3 = useCallback(
-        ({ target }) => {
+        ({ target }: any) => {
             setWord3(target.value);
         },
         [setWord3],
     );
 
     const handleSetWord4 = useCallback(
-        ({ target }) => {
+        ({ target }: any) => {
             setWord4(target.value);
         },
         [setWord4],
     );
 
     const handleSetWord5 = useCallback(
-        ({ target }) => {
+        ({ target }: any) => {
             setWord5(target.value);
         },
         [setWord5],
