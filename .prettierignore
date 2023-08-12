@@ -3,3 +3,7 @@ client/dist/
 README.md
 .node-version
 .prettierignore
+.eslintcache
+.gitignore
+**/*.jpg
+**/*.svg

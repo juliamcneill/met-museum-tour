@@ -1,7 +1,9 @@
-import React, { useCallback, useRef, useState } from 'react';
-import axios from 'axios';
-import { useBooleanState } from '../hooks';
-import { Button, LinearProgress } from '@mui/material';
+import { useBooleanState } from "../hooks";
+import { getApiResults } from "../logic";
+import { UIButton } from "./UIButton";
+import { UIInput } from "./UIInput";
+import { LinearProgress } from "@mui/material";
+import React, { useCallback, useRef, useState } from "react";
 
 interface Props {
     setResults: (results: object) => void;
@@ -9,14 +11,14 @@ interface Props {
 }
 
 const Questions: React.FC<Props> = ({ setResults, changeView }) => {
-    const [word1, setWord1] = useState<string>('');
-    const [word2, setWord2] = useState<string>('');
-    const [word3, setWord3] = useState<string>('');
-    const [word4, setWord4] = useState<string>('');
-    const [word5, setWord5] = useState<string>('');
+    const [word1, setWord1] = useState<string>("");
+    const [word2, setWord2] = useState<string>("");
+    const [word3, setWord3] = useState<string>("");
+    const [word4, setWord4] = useState<string>("");
+    const [word5, setWord5] = useState<string>("");
     const [submitted, submit] = useBooleanState(false);
     const [progress, setProgress] = useState<number>(0);
-    const [buttonText, setButtonText] = useState<string>('Generate Tour');
+    const [buttonText, setButtonText] = useState<string>("Generate Tour");
 
     const interval: any = useRef(null);
 
@@ -31,29 +33,34 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     }, [interval, progress, setProgress]);
 
     const handleFormSubmit = useCallback(
-        (event: any) => {
+        async (event: any) => {
             event.preventDefault();
             submit();
-            setButtonText('Generating...');
+            setButtonText("Generating...");
             startTimer();
 
-            axios
-                .get(
-                    `/generate?word1=${word1.toLowerCase()}&word2=${word2.toLowerCase()}&word3=${word3.toLowerCase()}&word4=${word4.toLowerCase()}&word5=${word5.toLowerCase()}`,
-                )
-                .then(({ data }) => {
-                    const sortedByDepartment: any = {};
-                    for (let i = 0; i < data.length; i++) {
-                        if (sortedByDepartment[data[i].department] === undefined) {
-                            sortedByDepartment[data[i].department] = [data[i]];
-                        } else {
-                            sortedByDepartment[data[i].department].push(data[i]);
-                        }
+            try {
+                const data = await getApiResults([
+                    word1.toLowerCase(),
+                    word2.toLowerCase(),
+                    word3.toLowerCase(),
+                    word4.toLowerCase(),
+                    word5.toLowerCase(),
+                ]);
+
+                const sortedByDepartment: any = {};
+                for (let i = 0; i < data.length; i++) {
+                    if (sortedByDepartment[data[i].department] === undefined) {
+                        sortedByDepartment[data[i].department] = [data[i]];
+                    } else {
+                        sortedByDepartment[data[i].department].push(data[i]);
                     }
-                    setResults(sortedByDepartment);
-                    changeView('results');
-                })
-                .catch((error) => alert(error.message));
+                }
+                setResults(sortedByDepartment);
+                changeView("results");
+            } catch (error: any) {
+                alert(error.message);
+            }
         },
         [submit, setButtonText, startTimer, setResults, changeView, word1, word2, word3, word4, word5],
     );
@@ -96,48 +103,52 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     return (
         <div>
             <form>
-                <input
-                    type="text"
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word1"
                     value={word1}
                     onChange={handleSetWord1}
-                ></input>
-                <input
-                    type="text"
+                />
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word2"
                     value={word2}
                     onChange={handleSetWord2}
-                ></input>
-                <input
-                    type="text"
+                />
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word3"
                     value={word3}
                     onChange={handleSetWord3}
-                ></input>
-                <input
-                    type="text"
+                />
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word4"
                     value={word4}
                     onChange={handleSetWord4}
-                ></input>
-                <input
-                    type="text"
+                />
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word5"
                     value={word5}
                     onChange={handleSetWord5}
-                ></input>
-                <Button variant="outlined" onClick={handleFormSubmit}>
+                />
+                <UIButton className="mx-auto my-4 mt-8 block w-3/5" onClick={handleFormSubmit}>
                     {buttonText}
-                </Button>
+                </UIButton>
             </form>
             {submitted === true && (
-                <div id="progressbar">
-                    <LinearProgress variant="determinate" value={progress} />
+                <div className="mx-auto my-[40px] h-[17px] w-4/5 rounded-lg border border-primary bg-white p-[3px]">
+                    <LinearProgress
+                        classes={{ root: "bg-white h-[10px] rounded-lg", bar: "bg-primary" }}
+                        variant="determinate"
+                        value={progress}
+                    />
                 </div>
             )}
         </div>
