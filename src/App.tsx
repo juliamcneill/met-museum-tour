@@ -48,8 +48,16 @@ export const App: React.FC = () => {
                             transition: "opacity .25s",
                         }}
                     >
-                        <img src={met} alt="Line drawing of the Metropolitan Museum of Art"></img>
-                        <Button className="bg-white text-primary" variant="outlined" onClick={changeViewToQuestions}>
+                        <img
+                            className="mx-auto my-4 block w-4/5"
+                            src={met}
+                            alt="Line drawing of the Metropolitan Museum of Art"
+                        ></img>
+                        <Button
+                            className="mx-auto my-4 mt-8 block w-4/5 rounded-lg border-primary bg-white p-2.5 font-sans normal-case text-primary hover:border-primary hover:bg-white hover:opacity-80"
+                            variant="outlined"
+                            onClick={changeViewToQuestions}
+                        >
                             Create New Tour
                         </Button>
                     </div>
@@ -83,7 +91,7 @@ export const App: React.FC = () => {
 
     return (
         <StyledEngineProvider injectFirst>
-            <div className="my-5 w-10/12 text-primary">{renderView}</div>
+            <div className="mx-auto my-5 w-10/12 text-primary">{renderView}</div>
         </StyledEngineProvider>
     );
 };

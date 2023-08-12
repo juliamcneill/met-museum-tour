@@ -23,38 +23,52 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
 
     return (
         <div>
-            <img src={met} alt="Line drawing of the Metropolitan Museum of Art"></img>
+            <img
+                className="mx-auto my-4 block w-4/5"
+                src={met}
+                alt="Line drawing of the Metropolitan Museum of Art"
+            ></img>
             {Object.keys(results).length === 0 ? (
                 <div id="errorMessage">Not enough results! Try again.</div>
             ) : (
                 Object.keys(results).map((key, index) => (
                     <div key={key}>
                         <img
-                            className={index % 2 === 0 ? "left-arrow" : "right-arrow"}
+                            className={`mb-[20px] mt-[35px] block w-1/3 ${
+                                index % 2 === 0 ? "float-right" : "float-left"
+                            }`}
                             src={index % 2 === 0 ? leftArrow : rightArrow}
                             alt="Decorative arrow"
                         ></img>
                         <div
-                            className={
-                                index % 2 === 0 ? "right-department-name-container" : "left-department-name-container"
-                            }
+                            className={`relative mb-[5px] mt-[20px] block h-[150px] w-3/5 ${
+                                index % 2 === 0 ? "float-right" : "float-left"
+                            }`}
                         >
-                            <div className="department-name">{key}</div>
+                            <div className="top-/4 absolute top-1/2 m-auto text-2xl decoration-solid">{key}</div>
                         </div>
                         {results[key].map((object: Object) => (
-                            <div className="object-info" key={key + object.title}>
-                                <div className="object-name">{object.artistDisplayName}</div>
-                                <div className="object-title">{object.title}</div>
-                                <div className="object-medium">{object.medium}</div>
-                                <div className="object-date">{object.objectDate}</div>
-                                <img className="object-image" src={object.primaryImage} alt="Reproduction of artwork" />
+                            <div className="clear-both" key={key + object.title}>
+                                <div>{object.artistDisplayName}</div>
+                                <div className="font-light">{object.title}</div>
+                                <div className="text-sm">{object.medium}</div>
+                                <div className="text-sm">{object.objectDate}</div>
+                                <img
+                                    className=" mx-auto my-4 mb-6 block w-3/5"
+                                    src={object.primaryImage}
+                                    alt="Reproduction of artwork"
+                                />
                             </div>
                         ))}
                     </div>
                 ))
             )}
 
-            <Button variant="outlined" onClick={changeViewToStart}>
+            <Button
+                className="mx-auto my-4 mt-8 block w-4/5 rounded-lg border-primary bg-white p-2.5 font-sans normal-case text-primary hover:border-primary hover:bg-white hover:opacity-80"
+                variant="outlined"
+                onClick={changeViewToStart}
+            >
                 Generate Another Tour
             </Button>
         </div>

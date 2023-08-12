@@ -102,6 +102,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
         <div>
             <form>
                 <input
+                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
                     type="text"
                     placeholder="Enter word"
                     name="word1"
@@ -109,6 +110,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     onChange={handleSetWord1}
                 ></input>
                 <input
+                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
                     type="text"
                     placeholder="Enter word"
                     name="word2"
@@ -116,6 +118,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     onChange={handleSetWord2}
                 ></input>
                 <input
+                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
                     type="text"
                     placeholder="Enter word"
                     name="word3"
@@ -123,6 +126,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     onChange={handleSetWord3}
                 ></input>
                 <input
+                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
                     type="text"
                     placeholder="Enter word"
                     name="word4"
@@ -130,19 +134,28 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     onChange={handleSetWord4}
                 ></input>
                 <input
+                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
                     type="text"
                     placeholder="Enter word"
                     name="word5"
                     value={word5}
                     onChange={handleSetWord5}
                 ></input>
-                <Button variant="outlined" onClick={handleFormSubmit}>
+                <Button
+                    className="mx-auto my-4 mt-8 block w-3/5 rounded-lg border-primary bg-white p-2.5 font-sans normal-case text-primary hover:border-primary hover:bg-white hover:opacity-80"
+                    variant="outlined"
+                    onClick={handleFormSubmit}
+                >
                     {buttonText}
                 </Button>
             </form>
             {submitted === true && (
-                <div id="progressbar">
-                    <LinearProgress variant="determinate" value={progress} />
+                <div className="mx-auto my-[40px] h-[17px] w-4/5 rounded-lg border border-primary bg-white p-[3px]">
+                    <LinearProgress
+                        classes={{ root: "bg-white h-[10px] rounded-lg", bar: "bg-primary" }}
+                        variant="determinate"
+                        value={progress}
+                    />
                 </div>
             )}
         </div>
