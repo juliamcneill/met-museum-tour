@@ -1,7 +1,7 @@
 import leftArrow from "../assets/leftArrow.jpg";
 import met from "../assets/met.jpg";
 import rightArrow from "../assets/rightArrow.jpg";
-import { Button } from "@mui/material";
+import { UIButton } from "./UIButton";
 import React, { useCallback } from "react";
 
 interface Props {
@@ -63,14 +63,9 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                     </div>
                 ))
             )}
-
-            <Button
-                className="mx-auto my-4 mt-8 block w-4/5 rounded-lg border-primary bg-white p-2.5 font-sans normal-case text-primary hover:border-primary hover:bg-white hover:opacity-80"
-                variant="outlined"
-                onClick={changeViewToStart}
-            >
+            <UIButton className="mx-auto my-4 mt-8 block w-4/5" onClick={changeViewToStart}>
                 Generate Another Tour
-            </Button>
+            </UIButton>
         </div>
     );
 };

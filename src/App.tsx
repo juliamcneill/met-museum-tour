@@ -1,8 +1,8 @@
 import met from "./assets/met.jpg";
 import Questions from "./components/Questions";
 import Results from "./components/Results";
+import { UIButton } from "./components/UIButton";
 import "./index.css";
-import { Button } from "@mui/material";
 import { StyledEngineProvider } from "@mui/material/styles";
 import React, { useCallback, useMemo, useState } from "react";
 
@@ -53,13 +53,9 @@ export const App: React.FC = () => {
                             src={met}
                             alt="Line drawing of the Metropolitan Museum of Art"
                         ></img>
-                        <Button
-                            className="mx-auto my-4 mt-8 block w-4/5 rounded-lg border-primary bg-white p-2.5 font-sans normal-case text-primary hover:border-primary hover:bg-white hover:opacity-80"
-                            variant="outlined"
-                            onClick={changeViewToQuestions}
-                        >
+                        <UIButton className="mx-auto my-4 mt-8 block w-4/5" onClick={changeViewToQuestions}>
                             Create New Tour
-                        </Button>
+                        </UIButton>
                     </div>
                 );
             case "questions":

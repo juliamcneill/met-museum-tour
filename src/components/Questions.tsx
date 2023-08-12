@@ -1,6 +1,8 @@
 import { useBooleanState } from "../hooks";
 import { getApiResults } from "../logic";
-import { Button, LinearProgress } from "@mui/material";
+import { UIButton } from "./UIButton";
+import { UIInput } from "./UIInput";
+import { LinearProgress } from "@mui/material";
 import React, { useCallback, useRef, useState } from "react";
 
 interface Props {
@@ -101,53 +103,44 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     return (
         <div>
             <form>
-                <input
-                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
-                    type="text"
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word1"
                     value={word1}
                     onChange={handleSetWord1}
-                ></input>
-                <input
-                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
-                    type="text"
+                />
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word2"
                     value={word2}
                     onChange={handleSetWord2}
-                ></input>
-                <input
-                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
-                    type="text"
+                />
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word3"
                     value={word3}
                     onChange={handleSetWord3}
-                ></input>
-                <input
-                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
-                    type="text"
+                />
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word4"
                     value={word4}
                     onChange={handleSetWord4}
-                ></input>
-                <input
-                    className="mx-auto my-4 block h-8 w-3/5 border-b border-primary outline-none"
-                    type="text"
+                />
+                <UIInput
+                    className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
                     name="word5"
                     value={word5}
                     onChange={handleSetWord5}
-                ></input>
-                <Button
-                    className="mx-auto my-4 mt-8 block w-3/5 rounded-lg border-primary bg-white p-2.5 font-sans normal-case text-primary hover:border-primary hover:bg-white hover:opacity-80"
-                    variant="outlined"
-                    onClick={handleFormSubmit}
-                >
+                />
+                <UIButton className="mx-auto my-4 mt-8 block w-3/5" onClick={handleFormSubmit}>
                     {buttonText}
-                </Button>
+                </UIButton>
             </form>
             {submitted === true && (
                 <div className="mx-auto my-[40px] h-[17px] w-4/5 rounded-lg border border-primary bg-white p-[3px]">
