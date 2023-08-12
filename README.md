@@ -4,9 +4,8 @@ MET Museum Tour Generator utilizes the Met Collection API and a [custom server-s
 
 ## Tech Stack
 
+- pnpm
+- Vite
 - React
-- Sass
-- Node.js
-- Webpack
-- Babel
-- Axios
+- Material UI
+- Tailwind

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 
 export type Togglers = [boolean, () => void, () => void, Dispatch<SetStateAction<boolean>>];
 

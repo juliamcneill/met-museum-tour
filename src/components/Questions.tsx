@@ -1,7 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react';
-import axios from 'axios';
-import { useBooleanState } from '../hooks';
-import { Button, LinearProgress } from '@mui/material';
+import { useBooleanState } from "../hooks";
+import { getApiResults } from "../logic";
+import { Button, LinearProgress } from "@mui/material";
+import React, { useCallback, useRef, useState } from "react";
 
 interface Props {
     setResults: (results: object) => void;
@@ -9,14 +9,14 @@ interface Props {
 }
 
 const Questions: React.FC<Props> = ({ setResults, changeView }) => {
-    const [word1, setWord1] = useState<string>('');
-    const [word2, setWord2] = useState<string>('');
-    const [word3, setWord3] = useState<string>('');
-    const [word4, setWord4] = useState<string>('');
-    const [word5, setWord5] = useState<string>('');
+    const [word1, setWord1] = useState<string>("");
+    const [word2, setWord2] = useState<string>("");
+    const [word3, setWord3] = useState<string>("");
+    const [word4, setWord4] = useState<string>("");
+    const [word5, setWord5] = useState<string>("");
     const [submitted, submit] = useBooleanState(false);
     const [progress, setProgress] = useState<number>(0);
-    const [buttonText, setButtonText] = useState<string>('Generate Tour');
+    const [buttonText, setButtonText] = useState<string>("Generate Tour");
 
     const interval: any = useRef(null);
 
@@ -31,29 +31,34 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     }, [interval, progress, setProgress]);
 
     const handleFormSubmit = useCallback(
-        (event: any) => {
+        async (event: any) => {
             event.preventDefault();
             submit();
-            setButtonText('Generating...');
+            setButtonText("Generating...");
             startTimer();
 
-            axios
-                .get(
-                    `/generate?word1=${word1.toLowerCase()}&word2=${word2.toLowerCase()}&word3=${word3.toLowerCase()}&word4=${word4.toLowerCase()}&word5=${word5.toLowerCase()}`,
-                )
-                .then(({ data }) => {
-                    const sortedByDepartment: any = {};
-                    for (let i = 0; i < data.length; i++) {
-                        if (sortedByDepartment[data[i].department] === undefined) {
-                            sortedByDepartment[data[i].department] = [data[i]];
-                        } else {
-                            sortedByDepartment[data[i].department].push(data[i]);
-                        }
+            try {
+                const data = await getApiResults([
+                    word1.toLowerCase(),
+                    word2.toLowerCase(),
+                    word3.toLowerCase(),
+                    word4.toLowerCase(),
+                    word5.toLowerCase(),
+                ]);
+
+                const sortedByDepartment: any = {};
+                for (let i = 0; i < data.length; i++) {
+                    if (sortedByDepartment[data[i].department] === undefined) {
+                        sortedByDepartment[data[i].department] = [data[i]];
+                    } else {
+                        sortedByDepartment[data[i].department].push(data[i]);
                     }
-                    setResults(sortedByDepartment);
-                    changeView('results');
-                })
-                .catch((error) => alert(error.message));
+                }
+                setResults(sortedByDepartment);
+                changeView("results");
+            } catch (error: any) {
+                alert(error.message);
+            }
         },
         [submit, setButtonText, startTimer, setResults, changeView, word1, word2, word3, word4, word5],
     );

@@ -4,19 +4,51 @@
         "type": "git",
         "url": "https://github.com/juliamcneill/met-museum-tour.git"
     },
-    "description": "Mobile application that generates a customized tour of the MET Museum of Art based on a user's interests.",
+    "description": "Application that generates a customized tour of the MET Museum of Art based on a user's interests.",
     "author": "Julia McNeill",
     "license": "UNLICENSED",
-    "main": "index.js",
     "engines": {
         "node": "18"
     },
+    "type": "module",
     "scripts": {
-        "start": "node server/index.js --watch",
-        "dev": "webpack --mode development --watch",
-        "heroku-postbuild": "webpack --mode production",
-        "tsc": "tsc",
-        "stylelint": "npx stylelint **/*.scss"
+        "start": "vite",
+        "build": "tsc && vite build",
+        "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.14.4",
+        "axios": "^1.4.0",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.2.3",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "typescript": "^5.1.6"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.7.1",
+        "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+        "@types/react": "^18.2.20",
+        "@types/react-dom": "^18.2.7",
+        "@typescript-eslint/eslint-plugin": "^6.3.0",
+        "@vitejs/plugin-react": "^4.0.3",
+        "autoprefixer": "^10.4.14",
+        "commitlint-config-jira": "^1.6.4",
+        "commitlint-plugin-jira-rules": "^1.6.4",
+        "eslint": "^8.45.0",
+        "eslint-plugin-react": "^7.32.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.4.3",
+        "postcss": "^8.4.27",
+        "prettier": "^3.0.1",
+        "prettier-plugin-tailwindcss": "^0.5.2",
+        "stylelint": "^15.10.2",
+        "stylelint-config-standard": "^34.0.0",
+        "tailwindcss": "^3.3.3",
+        "vite": "^4.4.5"
     },
     "lint-staged": {
         "*": [
@@ -30,52 +62,6 @@
             "echo",
             "npx stylelint"
         ]
-    },
-    "dependencies": {
-        "@babel/core": "~7.22.10",
-        "@babel/preset-env": "~7.22.10",
-        "@babel/preset-react": "~7.22.5",
-        "@emotion/react": "^11.11.1",
-        "@emotion/styled": "^11.11.0",
-        "@mui/material": "^5.14.4",
-        "axios": "~1.4.0",
-        "babel-loader": "~9.1.3",
-        "body-parser": "~1.20.2",
-        "css-loader": "~6.8.1",
-        "express": "~4.18.2",
-        "file-loader": "~6.2.0",
-        "husky": "^8.0.3",
-        "lint-staged": "^13.2.3",
-        "prettier": "^3.0.1",
-        "react": "~18.2.0",
-        "react-dom": "~18.2.0",
-        "react-transition-group": "~4.4.5",
-        "sass": "~1.65.1",
-        "sass-loader": "~13.3.2",
-        "style-loader": "~3.3.3",
-        "ts-loader": "~9.4.4",
-        "typescript": "~5.1.6",
-        "webpack": "^5.88.2",
-        "webpack-cli": "~5.1.4",
-        "webpack-dev-server": "~4.15.1"
-    },
-    "devDependencies": {
-        "@commitlint/cli": "^17.7.1",
-        "@types/react": "~18.2.20",
-        "@types/react-dom": "~18.2.7",
-        "@typescript-eslint/eslint-plugin": "^6.3.0",
-        "@typescript-eslint/parser": "^6.3.0",
-        "commitlint-config-jira": "^1.6.4",
-        "commitlint-plugin-jira-rules": "^1.6.4",
-        "eslint": "^8.46.0",
-        "eslint-config-airbnb": "^19.0.4",
-        "eslint-plugin-import": "^2.28.0",
-        "eslint-plugin-jsx-a11y": "^6.7.1",
-        "eslint-plugin-react": "^7.33.1",
-        "eslint-plugin-react-hooks": "^4.6.0",
-        "postcss": "^8.4.27",
-        "stylelint": "^15.10.2",
-        "stylelint-config-standard-scss": "^10.0.0"
     },
     "commitlint": {
         "plugins": [
