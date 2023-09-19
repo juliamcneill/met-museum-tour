@@ -47,7 +47,7 @@ export async function getApiResults(wordsArray: string[]): Promise<any> {
         const webpageData = objectWebpageData[index].data;
 
         // The Cloisters is a physically separate museum, so we don't want to include artwork from there in our results
-        if (metadata.department === "The Cloisters") {
+        if (metadata.department === "The Cloisters" || !metadata.isPublicDomain || !metadata.primaryImage) {
             return;
         }
 
@@ -64,11 +64,9 @@ export async function getApiResults(wordsArray: string[]): Promise<any> {
                 metadata.dynasty.toLowerCase().includes(word) ||
                 metadata.reign.toLowerCase().includes(word) ||
                 metadata.artistDisplayName.toLowerCase().includes(word) ||
-                metadata.artistDisplayBio.toLowerCase().includes(word) ||
                 metadata.artistAlphaSort.toLowerCase().includes(word) ||
                 metadata.artistNationality.toLowerCase().includes(word) ||
                 metadata.objectDate.toLowerCase().includes(word) ||
-                metadata.creditLine.toLowerCase().includes(word) ||
                 metadata.classification.toLowerCase().includes(word) ||
                 (webpageDescription && wordInString(webpageDescription.toLowerCase(), word))
             ) {
@@ -92,6 +90,11 @@ export async function getApiResults(wordsArray: string[]): Promise<any> {
     }
 
     finalPieces.sort((a, b) => b.count - a.count);
+
+    console.log(
+        "final rankings",
+        finalPieces.map(({ id, count, index }) => ({ id, count, name: objectMetadata[index].data.title })),
+    );
 
     return finalPieces.slice(0, 5).map((x) => objectMetadata[x.index].data);
 }
