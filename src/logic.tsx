@@ -1,121 +1,97 @@
 import axios from "axios";
+import { flatten } from "lodash";
 
-function timeout() {
-    return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 8000);
-    });
-}
+const metApiSearchUrl = "https://collectionapi.metmuseum.org/public/collection/v1/search";
+const metApiObjectsUrl = "https://collectionapi.metmuseum.org/public/collection/v1/objects";
+const metArtworkPublicWebpageUrl = "https://www.metmuseum.org/art/collection/search";
+const genericSearchParameters = "isOnView=true&isHighlight=true&hasImages=true";
 
-export async function getApiResults(wordsArray: [string, string, string, string, string]): Promise<any> {
-    const tracker: { [key: string]: number | undefined } = {};
+const wordInString = (string: string, word: string) => new RegExp("\\b" + word + "(?:es|s)?\\b").test(string);
+const parser = new DOMParser();
 
-    return Promise.race([timeout().then(() => resolvePieces()), getResults().then(() => resolvePieces())]);
+export async function getApiResults(wordsArray: string[]): Promise<any> {
+    // Get all object ids that match any of the query words
+    const resultsArray = await axios.all(
+        wordsArray.map((word) => axios.get(`${metApiSearchUrl}?${genericSearchParameters}&q=${word}`)),
+    );
 
-    async function getResults() {
-        const resultsArray = await axios.all([
-            axios.get(
-                `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&isHighlight=true&q=${wordsArray[0]}`,
-            ),
-            axios.get(
-                `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&isHighlight=true&q=${wordsArray[1]}`,
-            ),
-            axios.get(
-                `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&isHighlight=true&q=${wordsArray[2]}`,
-            ),
-            axios.get(
-                `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&isHighlight=true&q=${wordsArray[3]}`,
-            ),
-            axios.get(
-                `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&isHighlight=true&q=${wordsArray[4]}`,
-            ),
-        ]);
+    const allIds = flatten(resultsArray.map((x) => x.data.objectIDs ?? []));
 
-        for (let h = 0; h < resultsArray.length; h++) {
-            const currentWord = wordsArray[h];
-            const results = resultsArray[h].data;
+    // Record these object ids by frequency
+    const idFrequencyTracker: { [key: string]: number | undefined } = {};
+    for (const id of allIds) {
+        if (idFrequencyTracker[id] === undefined) {
+            idFrequencyTracker[id] = 1;
+        } else {
+            idFrequencyTracker[id]++;
+        }
+    }
 
-            if (results.objectIDs != undefined) {
-                for (let i = 0; i < results.objectIDs.length; i++) {
-                    const currentObjectID = results.objectIDs[i];
+    // Push all object ids by their frequency value
+    const sorted: { id: string; count: number }[] = [];
+    for (const [id, count] of Object.entries(idFrequencyTracker)) {
+        sorted.push({ id, count });
+    }
+    sorted.sort((a, b) => b.count - a.count);
 
-                    if (currentObjectID != undefined) {
-                        const details = await axios.get(
-                            `https://collectionapi.metmuseum.org/public/collection/v1/objects/${currentObjectID}`,
-                        );
+    // Take the top 15 most frequent ids and get (1) full artwork metadata from the API and (2) full description from the artwork's webpage
+    const topObjects = sorted.slice(0, 15);
+    const objectMetadata = await axios.all(topObjects.map(({ id }) => axios.get(`${metApiObjectsUrl}/${id}`)));
+    const objectWebpageData = await axios.all(
+        topObjects.map(({ id }) => axios.get(`${metArtworkPublicWebpageUrl}/${id}`)),
+    );
 
-                        let foundWord = false;
-                        const fields = details.data;
-                        if (
-                            fields.department != "American Decorative Arts" &&
-                            fields.department != "Arms and Armor" &&
-                            fields.department != "The Cloisters" &&
-                            fields.department != "European Sculpture and Decorative Arts"
-                        ) {
-                            if (
-                                fields.department.toLowerCase().includes(currentWord) ||
-                                fields.objectName.toLowerCase().includes(currentWord) ||
-                                fields.title.toLowerCase().includes(currentWord) ||
-                                fields.culture.toLowerCase().includes(currentWord) ||
-                                fields.period.toLowerCase().includes(currentWord) ||
-                                fields.dynasty.toLowerCase().includes(wordsArray[h]) ||
-                                fields.reign.toLowerCase().includes(wordsArray[h]) ||
-                                fields.artistDisplayName.toLowerCase().includes(wordsArray[h]) ||
-                                fields.artistDisplayBio.toLowerCase().includes(wordsArray[h]) ||
-                                fields.artistAlphaSort.toLowerCase().includes(wordsArray[h]) ||
-                                fields.artistNationality.toLowerCase().includes(wordsArray[h]) ||
-                                fields.objectDate.toLowerCase().includes(wordsArray[h]) ||
-                                fields.creditLine.toLowerCase().includes(wordsArray[h]) ||
-                                fields.classification.toLowerCase().includes(wordsArray[h])
-                            ) {
-                                foundWord = true;
-                            } else {
-                                if (fields.tags != null) {
-                                    for (let j = 0; j < fields.tags.length; j++) {
-                                        if (fields.tags[j].term.toLowerCase().includes(wordsArray[h])) {
-                                            foundWord = true;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+    const finalArtworksTracker: { [key: string]: { id: string; count: number; index: number } } = {};
+    topObjects.forEach(({ id }, index) => {
+        const metadata = objectMetadata[index].data;
+        const webpageData = objectWebpageData[index].data;
 
-                        if (foundWord === true) {
-                            console.log("found " + currentWord + " in " + fields.title);
-                            if (tracker[currentObjectID] === undefined) {
-                                tracker[currentObjectID] = 1;
-                            } else {
-                                tracker[currentObjectID]!++;
-                            }
-                        }
-                    }
+        // The Cloisters is a physically separate museum, so we don't want to include artwork from there in our results
+        if (metadata.department === "The Cloisters") {
+            return;
+        }
+
+        const parsedWebpageData = parser.parseFromString(webpageData, "text/html");
+        const webpageDescription = parsedWebpageData.querySelector(".artwork__intro__desc p").textContent;
+
+        for (const word of wordsArray) {
+            if (
+                metadata.department.toLowerCase().includes(word) ||
+                metadata.objectName.toLowerCase().includes(word) ||
+                metadata.title.toLowerCase().includes(word) ||
+                metadata.culture.toLowerCase().includes(word) ||
+                metadata.period.toLowerCase().includes(word) ||
+                metadata.dynasty.toLowerCase().includes(word) ||
+                metadata.reign.toLowerCase().includes(word) ||
+                metadata.artistDisplayName.toLowerCase().includes(word) ||
+                metadata.artistDisplayBio.toLowerCase().includes(word) ||
+                metadata.artistAlphaSort.toLowerCase().includes(word) ||
+                metadata.artistNationality.toLowerCase().includes(word) ||
+                metadata.objectDate.toLowerCase().includes(word) ||
+                metadata.creditLine.toLowerCase().includes(word) ||
+                metadata.classification.toLowerCase().includes(word) ||
+                (webpageDescription && wordInString(webpageDescription.toLowerCase(), word))
+            ) {
+                if (finalArtworksTracker[id] === undefined) {
+                    finalArtworksTracker[id] = { id, count: 1, index };
+                } else {
+                    finalArtworksTracker[id] = {
+                        id,
+                        count: finalArtworksTracker[id].count + 1,
+                        index,
+                    };
                 }
             }
         }
+    });
+
+    const finalPieces: { id: string; count: number; index: number }[] = [];
+
+    for (const value of Object.values(finalArtworksTracker)) {
+        finalPieces.push(value);
     }
 
-    async function resolvePieces() {
-        const sorted: [string, number][] = [];
+    finalPieces.sort((a, b) => b.count - a.count);
 
-        for (const object in tracker) {
-            sorted.push([object, tracker[object]!]);
-        }
-
-        sorted.sort(function (a, b) {
-            return b[1] - a[1];
-        });
-
-        if (sorted.length >= 5) {
-            const [object1, object2, object3, object4, object5] = await axios.all([
-                axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[0][0]}`),
-                axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[1][0]}`),
-                axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[2][0]}`),
-                axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[3][0]}`),
-                axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${sorted[4][0]}`),
-            ]);
-
-            return [object1.data, object2.data, object3.data, object4.data, object5.data];
-        } else {
-            return [];
-        }
-    }
+    return finalPieces.slice(0, 5).map((x) => objectMetadata[x.index].data);
 }

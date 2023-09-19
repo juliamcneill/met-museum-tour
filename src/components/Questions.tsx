@@ -40,13 +40,15 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
             startTimer();
 
             try {
-                const data = await getApiResults([
-                    word1.toLowerCase(),
-                    word2.toLowerCase(),
-                    word3.toLowerCase(),
-                    word4.toLowerCase(),
-                    word5.toLowerCase(),
-                ]);
+                const data = await getApiResults(
+                    [
+                        word1.toLowerCase(),
+                        word2.toLowerCase(),
+                        word3.toLowerCase(),
+                        word4.toLowerCase(),
+                        word5.toLowerCase(),
+                    ].filter((x) => !!x),
+                );
 
                 const sortedByDepartment: any = {};
                 for (let i = 0; i < data.length; i++) {
