@@ -34,8 +34,11 @@ export async function getApiResults(wordsArray: string[]): Promise<any> {
     }
     sorted.sort((a, b) => b.count - a.count);
 
-    // Take the top 15 most frequent ids and get (1) full artwork metadata from the API and (2) full description from the artwork's webpage
-    const topObjects = sorted.slice(0, 15);
+    // Take the top 30 most frequent ids and get (1) full artwork metadata from the API and (2) full description from the artwork's webpage
+    const topObjects = sorted.slice(0, 30);
+
+    console.log("top objects", topObjects);
+
     const objectMetadata = await axios.all(topObjects.map(({ id }) => axios.get(`${metApiObjectsUrl}/${id}`)));
     const objectWebpageData = await axios.all(
         topObjects.map(({ id }) => axios.get(`${metArtworkPublicWebpageUrl}/${id}`)),
