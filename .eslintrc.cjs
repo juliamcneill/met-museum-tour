@@ -17,7 +17,7 @@ module.exports = {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "error",
         "react/jsx-key": "error",
-        "react/jsx-no-bind": "error",
+        "react/jsx-no-bind": "warn",
         "@typescript-eslint/explicit-function-return-type": 0,
         "@typescript-eslint/no-use-before-define": 0,
         "@typescript-eslint/ban-types": 0,
