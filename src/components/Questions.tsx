@@ -1,8 +1,13 @@
 import { useBooleanState } from "../hooks";
-import { getApiResults } from "../logic";
+import { SpreadFactor, getApiResults } from "../logic";
+import AnswerBlock from "./AnswerBlock";
 import { UIButton } from "./UIButton";
-import { UIInput } from "./UIInput";
 import { LinearProgress } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import React, { useCallback, useRef, useState } from "react";
 
 interface Props {
@@ -11,11 +16,9 @@ interface Props {
 }
 
 const Questions: React.FC<Props> = ({ setResults, changeView }) => {
-    const [word1, setWord1] = useState<string>("");
-    const [word2, setWord2] = useState<string>("");
-    const [word3, setWord3] = useState<string>("");
-    const [word4, setWord4] = useState<string>("");
-    const [word5, setWord5] = useState<string>("");
+    const [topicWords, setTopicWords] = useState<string[]>(["", ""]);
+    const [styleWords, setStyleWords] = useState<string[]>(["", ""]);
+    const [spreadFactor, setSpreadFactor] = useState<typeof SpreadFactor>("entireMuseum");
     const [submitted, submit] = useBooleanState(false);
     const [progress, setProgress] = useState<number>(0);
     const [buttonText, setButtonText] = useState<string>("Generate Tour");
@@ -41,13 +44,8 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
 
             try {
                 const data = await getApiResults(
-                    [
-                        word1.toLowerCase(),
-                        word2.toLowerCase(),
-                        word3.toLowerCase(),
-                        word4.toLowerCase(),
-                        word5.toLowerCase(),
-                    ].filter((x) => !!x),
+                    [...styleWords, ...topicWords].filter((x) => !!x),
+                    spreadFactor,
                 );
 
                 const sortedByDepartment: any = {};
@@ -64,82 +62,48 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                 alert(error.message);
             }
         },
-        [submit, setButtonText, startTimer, setResults, changeView, word1, word2, word3, word4, word5],
-    );
-
-    const handleSetWord1 = useCallback(
-        ({ target }: any) => {
-            setWord1(target.value);
-        },
-        [setWord1],
-    );
-
-    const handleSetWord2 = useCallback(
-        ({ target }: any) => {
-            setWord2(target.value);
-        },
-        [setWord2],
-    );
-
-    const handleSetWord3 = useCallback(
-        ({ target }: any) => {
-            setWord3(target.value);
-        },
-        [setWord3],
-    );
-
-    const handleSetWord4 = useCallback(
-        ({ target }: any) => {
-            setWord4(target.value);
-        },
-        [setWord4],
-    );
-
-    const handleSetWord5 = useCallback(
-        ({ target }: any) => {
-            setWord5(target.value);
-        },
-        [setWord5],
+        [submit, setButtonText, startTimer, setResults, changeView, styleWords, topicWords, spreadFactor],
     );
 
     return (
         <div>
             <form>
-                <UIInput
-                    className="mx-auto my-4 block w-3/5"
-                    placeholder="Enter word"
-                    name="word1"
-                    value={word1}
-                    onChange={handleSetWord1}
-                />
-                <UIInput
-                    className="mx-auto my-4 block w-3/5"
-                    placeholder="Enter word"
-                    name="word2"
-                    value={word2}
-                    onChange={handleSetWord2}
-                />
-                <UIInput
-                    className="mx-auto my-4 block w-3/5"
-                    placeholder="Enter word"
-                    name="word3"
-                    value={word3}
-                    onChange={handleSetWord3}
-                />
-                <UIInput
-                    className="mx-auto my-4 block w-3/5"
-                    placeholder="Enter word"
-                    name="word4"
-                    value={word4}
-                    onChange={handleSetWord4}
-                />
-                <UIInput
-                    className="mx-auto my-4 block w-3/5"
-                    placeholder="Enter word"
-                    name="word5"
-                    value={word5}
-                    onChange={handleSetWord5}
-                />
+                <div>List a few broad concepts that you would like to explore today. (ex: love, family, dogs)</div>
+                <AnswerBlock words={topicWords} setWords={setTopicWords} />
+                <div>
+                    List a few techniques, genres, mediums, or locations that you would like to explore today. (ex:
+                    Realism, Ancient, Baroque, Greek, Egyptian)
+                </div>
+                <AnswerBlock words={styleWords} setWords={setStyleWords} />
+                <FormControl
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        setSpreadFactor(event.target.value as typeof SpreadFactor)
+                    }
+                >
+                    <FormLabel className="font-sans text-primary focus:!text-primary">
+                        How localized do you want your tour to be?
+                    </FormLabel>
+                    <RadioGroup className="mx-auto my-4 block w-3/5">
+                        <FormControlLabel
+                            value="entireMuseum"
+                            control={<Radio />}
+                            label="Entire Museum"
+                            classes={{ label: "font-sans text-primary" }}
+                        />
+                        <FormControlLabel
+                            value="fewExhibits"
+                            control={<Radio />}
+                            label="Few Exhibits"
+                            classes={{ label: "font-sans text-primary" }}
+                        />
+                        <FormControlLabel
+                            value="singleExhibit"
+                            control={<Radio />}
+                            label="Single Exhibit"
+                            classes={{ label: "font-sans text-primary" }}
+                        />
+                    </RadioGroup>
+                </FormControl>
                 <UIButton className="mx-auto my-4 mt-8 block w-3/5" onClick={handleFormSubmit}>
                     {buttonText}
                 </UIButton>
