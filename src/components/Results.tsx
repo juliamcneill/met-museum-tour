@@ -39,7 +39,7 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                                     alt="Decorative arrow"
                                 ></img>
                                 <div
-                                    className={`relative mb-[5px] mt-[20px] block h-[150px] w-3/5 ${
+                                    className={`relative mb-[5px] block h-[150px] w-3/5 sm:mt-[20px] ${
                                         index % 2 === 0 ? "float-right" : "float-left"
                                     }`}
                                 >
@@ -49,15 +49,15 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                                 </div>
                             </div>
                             {results[key].map((object: Object) => (
-                                <div className="align-center flex" key={key + object.title}>
-                                    <div className="w-2/5 p-8">
+                                <div className="flex flex-col items-center sm:flex-row" key={key + object.title}>
+                                    <div className="w-full p-8 sm:w-2/5">
                                         <div>{object.artistDisplayName}</div>
                                         <div className="font-light">{object.title}</div>
                                         <div className="text-sm">{object.medium}</div>
                                         <div className="text-sm">{object.objectDate}</div>
                                     </div>
                                     <img
-                                        className="mx-auto my-4 mb-6 block w-1/2"
+                                        className="mx-auto my-4 mb-6 block w-4/5 sm:w-1/2"
                                         src={object.primaryImage}
                                         alt="Reproduction of artwork"
                                     />
