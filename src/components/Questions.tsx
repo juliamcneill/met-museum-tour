@@ -68,55 +68,63 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
     return (
         <div>
             <form>
-                <div>List a few broad concepts that you would like to explore today. (ex: love, family, dogs)</div>
-                <AnswerBlock words={topicWords} setWords={setTopicWords} />
-                <div>
-                    List a few techniques, genres, mediums, or locations that you would like to explore today. (ex:
-                    Realism, Ancient, Baroque, Greek, Egyptian)
+                <div className="flex flex-col gap-6 rounded border border-primary bg-white p-8">
+                    <div>
+                        <div>
+                            List a few broad concepts that you would like to explore today. (ex: love, family, dogs)
+                        </div>
+                        <AnswerBlock words={topicWords} setWords={setTopicWords} />
+                    </div>
+                    <div>
+                        <div>
+                            List a few techniques, genres, mediums, or locations that you would like to explore today.
+                            (ex: Realism, Ancient, Baroque, Greek, Egyptian)
+                        </div>
+                        <AnswerBlock words={styleWords} setWords={setStyleWords} />
+                    </div>
+                    <FormControl
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                            setSpreadFactor(event.target.value as typeof SpreadFactor)
+                        }
+                    >
+                        <FormLabel className="font-sans text-primary focus:!text-primary">
+                            How localized do you want your tour to be?
+                        </FormLabel>
+                        <RadioGroup className="mx-auto my-4 block w-3/5">
+                            <FormControlLabel
+                                value="entireMuseum"
+                                control={<Radio />}
+                                label="Entire Museum"
+                                classes={{ label: "font-sans text-primary" }}
+                            />
+                            <FormControlLabel
+                                value="fewExhibits"
+                                control={<Radio />}
+                                label="Few Exhibits"
+                                classes={{ label: "font-sans text-primary" }}
+                            />
+                            <FormControlLabel
+                                value="singleExhibit"
+                                control={<Radio />}
+                                label="Single Exhibit"
+                                classes={{ label: "font-sans text-primary" }}
+                            />
+                        </RadioGroup>
+                    </FormControl>
                 </div>
-                <AnswerBlock words={styleWords} setWords={setStyleWords} />
-                <FormControl
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                        setSpreadFactor(event.target.value as typeof SpreadFactor)
-                    }
-                >
-                    <FormLabel className="font-sans text-primary focus:!text-primary">
-                        How localized do you want your tour to be?
-                    </FormLabel>
-                    <RadioGroup className="mx-auto my-4 block w-3/5">
-                        <FormControlLabel
-                            value="entireMuseum"
-                            control={<Radio />}
-                            label="Entire Museum"
-                            classes={{ label: "font-sans text-primary" }}
-                        />
-                        <FormControlLabel
-                            value="fewExhibits"
-                            control={<Radio />}
-                            label="Few Exhibits"
-                            classes={{ label: "font-sans text-primary" }}
-                        />
-                        <FormControlLabel
-                            value="singleExhibit"
-                            control={<Radio />}
-                            label="Single Exhibit"
-                            classes={{ label: "font-sans text-primary" }}
-                        />
-                    </RadioGroup>
-                </FormControl>
                 <UIButton className="mx-auto my-4 mt-8 block w-3/5" onClick={handleFormSubmit}>
                     {buttonText}
                 </UIButton>
+                {submitted === true && (
+                    <div className="mx-auto my-[40px] h-[17px] w-4/5 rounded-lg border border-primary bg-white p-[3px]">
+                        <LinearProgress
+                            classes={{ root: "bg-white h-[10px] rounded-lg", bar: "bg-primary" }}
+                            variant="determinate"
+                            value={progress}
+                        />
+                    </div>
+                )}
             </form>
-            {submitted === true && (
-                <div className="mx-auto my-[40px] h-[17px] w-4/5 rounded-lg border border-primary bg-white p-[3px]">
-                    <LinearProgress
-                        classes={{ root: "bg-white h-[10px] rounded-lg", bar: "bg-primary" }}
-                        variant="determinate"
-                        value={progress}
-                    />
-                </div>
-            )}
         </div>
     );
 };

@@ -23,10 +23,10 @@ const AnswerBlock: React.FC<AnswerBlockProps> = ({ words, setWords }) => {
         <div>
             {words.map((word, i) => (
                 <UIInput
-                    key={`${word}${i}`}
+                    key={`word${i}`}
+                    name={`word${i}`}
                     className="mx-auto my-4 block w-3/5"
                     placeholder="Enter word"
-                    name={`word${i}`}
                     value={word}
                     onChange={(event) => handleSetWord(i, event.target.value)}
                 />

@@ -1,4 +1,4 @@
-import met from "./assets/met.jpg";
+import MetImage from "./components/MetImage";
 import Questions from "./components/Questions";
 import Results from "./components/Results";
 import { UIButton } from "./components/UIButton";
@@ -48,11 +48,10 @@ export const App: React.FC = () => {
                             transition: "opacity .25s",
                         }}
                     >
-                        <img
-                            className="mx-auto my-4 block w-4/5"
-                            src={met}
-                            alt="Line drawing of the Metropolitan Museum of Art"
-                        ></img>
+                        <h1 className="flex w-[25rem] justify-center rounded border border-primary  bg-white py-2 tracking-wide text-primary">
+                            MET Museum Tour Generator
+                        </h1>
+                        <MetImage />
                         <UIButton className="mx-auto my-4 mt-8 block w-4/5" onClick={changeViewToQuestions}>
                             Create New Tour
                         </UIButton>
@@ -87,7 +86,9 @@ export const App: React.FC = () => {
 
     return (
         <StyledEngineProvider injectFirst>
-            <div className="mx-auto my-5 w-10/12 text-primary">{renderView}</div>
+            <div className="min-h-full min-w-full bg-background py-12 pb-20">
+                <div className="mx-auto w-10/12 text-primary">{renderView}</div>
+            </div>
         </StyledEngineProvider>
     );
 };
