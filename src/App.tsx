@@ -48,7 +48,7 @@ export const App: React.FC = () => {
                             transition: "opacity .25s",
                         }}
                     >
-                        <h1 className="flex w-[25rem] justify-center rounded border border-primary  bg-white py-2 tracking-wide text-primary">
+                        <h1 className="flex w-[25rem] max-w-full justify-center rounded border  border-primary bg-white py-2 tracking-wide text-primary">
                             MET Museum Tour Generator
                         </h1>
                         <MetImage />
