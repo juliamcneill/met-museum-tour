@@ -4,6 +4,7 @@ The MET Museum Tour Generator uses the Met Collection API and a custom algorithm
 
 ## Tech Stack
 
+- GitHub Pages
 - Vite
 - TypeScript
 - React
