@@ -42,7 +42,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ results, changeView })
                                     </div>
                                 </div>
                             </div>
-                            {ResultsPage[key].map((artwork: Artwork) => (
+                            {results[key].map((artwork: Artwork) => (
                                 <div className="flex flex-col items-center sm:flex-row" key={key + artwork.title}>
                                     <div className="w-full p-8 sm:w-2/5">
                                         <div>{artwork.artistDisplayName}</div>

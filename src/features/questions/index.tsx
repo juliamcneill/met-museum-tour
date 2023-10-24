@@ -1,6 +1,6 @@
 import { UIButton } from "../../components/UIButton";
 import { useBooleanState } from "../../hooks/useBooleanState";
-import { SpreadFactor, getApiResultsPage } from "../algorithm";
+import { SpreadFactor, getApiResults } from "../algorithm";
 import AnswerBlock from "./components/AnswerBlock";
 import { LinearProgress } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
@@ -11,7 +11,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import React, { useCallback, useRef, useState } from "react";
 
 interface QuestionsPageProps {
-    setResults: (ResultsPage: object) => void;
+    setResults: (results: object) => void;
     changeView: (view: string) => void;
 }
 
@@ -43,7 +43,7 @@ export const QuestionsPage: React.FC<QuestionsPageProps> = ({ setResults, change
             startTimer();
 
             try {
-                const data = await getApiResultsPage(
+                const data = await getApiResults(
                     [...styleWords, ...topicWords].filter((x) => !!x),
                     spreadFactor,
                 );
@@ -57,7 +57,7 @@ export const QuestionsPage: React.FC<QuestionsPageProps> = ({ setResults, change
                     }
                 }
                 setResults(sortedByDepartment);
-                changeView("ResultsPage");
+                changeView("results");
             } catch (error: any) {
                 alert(error.message);
             }

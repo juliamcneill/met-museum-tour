@@ -10,7 +10,7 @@ export const App: React.FC = () => {
     const [results, setResults] = useState<object>({});
     const [startTransition, setStartTransition] = useState<string>("100%");
     const [questionsTransition, setQuestionsTransition] = useState<string>("0%");
-    const [ResultsPageTransition, setResultsPageTransition] = useState<string>("0%");
+    const [resultsTransition, setResultsTransition] = useState<string>("0%");
 
     const changeView = useCallback((option: string) => {
         setTimeout(() => {
@@ -20,16 +20,16 @@ export const App: React.FC = () => {
         if (option === "start") {
             setStartTransition("100%");
             setQuestionsTransition("0%");
-            setResultsPageTransition("0%");
+            setResultsTransition("0%");
             setResults({});
         } else if (option === "questions") {
             setStartTransition("0%");
             setQuestionsTransition("100%");
-            setResultsPageTransition("0%");
-        } else if (option === "ResultsPage") {
+            setResultsTransition("0%");
+        } else if (option === "results") {
             setStartTransition("0%");
             setQuestionsTransition("0%");
-            setResultsPageTransition("100%");
+            setResultsTransition("100%");
         }
     }, []);
 
@@ -57,11 +57,11 @@ export const App: React.FC = () => {
                         <QuestionsPage setResults={setResults} changeView={changeView} />
                     </div>
                 );
-            case "ResultsPage":
+            case "results":
                 return (
                     <div
                         style={{
-                            opacity: ResultsPageTransition,
+                            opacity: resultsTransition,
                             transition: "opacity .5s",
                         }}
                     >
@@ -71,7 +71,7 @@ export const App: React.FC = () => {
             default:
                 return null;
         }
-    }, [view, results, changeView, questionsTransition, ResultsPageTransition, startTransition]);
+    }, [view, results, changeView, questionsTransition, resultsTransition, startTransition]);
 
     return (
         <StyledEngineProvider injectFirst>
