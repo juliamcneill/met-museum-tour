@@ -1,22 +1,16 @@
+import MetImage from "../../components/MetImage";
+import { UIButton } from "../../components/UIButton";
+import { Artwork } from "../../types";
 import leftArrow from "../assets/leftArrow.jpg";
 import rightArrow from "../assets/rightArrow.jpg";
-import MetImage from "./MetImage";
-import { UIButton } from "./UIButton";
 import React, { useCallback } from "react";
 
-interface Props {
+interface ResultsPageProps {
     results: any;
     changeView: Function;
 }
-interface Object {
-    artistDisplayName?: string;
-    title?: string;
-    medium?: string;
-    objectDate?: string;
-    primaryImage?: string;
-}
 
-const Results: React.FC<Props> = ({ results, changeView }) => {
+export const ResultsPage: React.FC<ResultsPageProps> = ({ results, changeView }) => {
     const changeViewToStart = useCallback(() => {
         changeView("start");
     }, [changeView]);
@@ -48,17 +42,17 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
                                     </div>
                                 </div>
                             </div>
-                            {results[key].map((object: Object) => (
-                                <div className="flex flex-col items-center sm:flex-row" key={key + object.title}>
+                            {ResultsPage[key].map((artwork: Artwork) => (
+                                <div className="flex flex-col items-center sm:flex-row" key={key + artwork.title}>
                                     <div className="w-full p-8 sm:w-2/5">
-                                        <div>{object.artistDisplayName}</div>
-                                        <div className="font-light">{object.title}</div>
-                                        <div className="text-sm">{object.medium}</div>
-                                        <div className="text-sm">{object.objectDate}</div>
+                                        <div>{artwork.artistDisplayName}</div>
+                                        <div className="font-light">{artwork.title}</div>
+                                        <div className="text-sm">{artwork.medium}</div>
+                                        <div className="text-sm">{artwork.objectDate}</div>
                                     </div>
                                     <img
                                         className="mx-auto my-4 mb-6 block w-4/5 sm:w-1/2"
-                                        src={object.primaryImage}
+                                        src={artwork.primaryImage}
                                         alt="Reproduction of artwork"
                                     />
                                 </div>
@@ -73,5 +67,3 @@ const Results: React.FC<Props> = ({ results, changeView }) => {
         </div>
     );
 };
-
-export default Results;
