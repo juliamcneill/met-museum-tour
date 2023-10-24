@@ -27,17 +27,17 @@ export function processWords(words: string[]) {
     return wordsWithNonPlurals;
 }
 
-export async function getApiResults(unprocessedWords: string[], spreadFactor: typeof SpreadFactor): Promise<any> {
+export async function getApiResultsPage(unprocessedWords: string[], spreadFactor: typeof SpreadFactor): Promise<any> {
     const words = processWords(unprocessedWords);
 
     // Get all object ids that match any of the query words
-    const resultsArray = await axios.all(
+    const ResultsPageArray = await axios.all(
         words.map((word) => axios.get(`${metApiSearchUrl}?${genericSearchParameters}&q=${word}`)),
     );
 
-    console.info("all results", resultsArray);
+    console.info("all ResultsPage", ResultsPageArray);
 
-    const allIds = flatten(resultsArray.map((x) => x.data.objectIDs ?? []));
+    const allIds = flatten(ResultsPageArray.map((x) => x.data.objectIDs ?? []));
 
     console.info("all result ids", allIds);
 
@@ -75,7 +75,7 @@ export async function getApiResults(unprocessedWords: string[], spreadFactor: ty
         const metadata = objectMetadata[index].data;
         const webpageData = objectWebpageData[index].data;
 
-        // The Cloisters is a physically separate museum, so we don't want to include artwork from there in our results
+        // The Cloisters is a physically separate museum, so we don't want to include artwork from there in our ResultsPage
         if (metadata.department === "The Cloisters" || !metadata.isPublicDomain || !metadata.primaryImage) {
             return;
         }

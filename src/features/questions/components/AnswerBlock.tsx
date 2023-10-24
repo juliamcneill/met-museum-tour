@@ -1,4 +1,4 @@
-import { UIInput } from "./UIInput";
+import { UIInput } from "../../../components/UIInput";
 import AddIcon from "@mui/icons-material/Add";
 import React, { useCallback } from "react";
 

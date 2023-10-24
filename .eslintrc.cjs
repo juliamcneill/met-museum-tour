@@ -13,6 +13,12 @@ module.exports = {
     settings: { react: { version: "18.2" } },
     plugins: ["react-refresh"],
     rules: {
+        "no-restricted-imports": [
+            "error",
+            {
+                patterns: ["@/features/*/*"],
+            },
+        ],
         "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "error",

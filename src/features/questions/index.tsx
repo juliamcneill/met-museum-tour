@@ -1,7 +1,7 @@
-import { useBooleanState } from "../hooks";
-import { SpreadFactor, getApiResults } from "../logic";
-import AnswerBlock from "./AnswerBlock";
-import { UIButton } from "./UIButton";
+import { UIButton } from "../../components/UIButton";
+import { useBooleanState } from "../../hooks/useBooleanState";
+import { SpreadFactor, getApiResultsPage } from "../algorithm";
+import AnswerBlock from "./components/AnswerBlock";
 import { LinearProgress } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -10,12 +10,12 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import React, { useCallback, useRef, useState } from "react";
 
-interface Props {
-    setResults: (results: object) => void;
+interface QuestionsPageProps {
+    setResults: (ResultsPage: object) => void;
     changeView: (view: string) => void;
 }
 
-const Questions: React.FC<Props> = ({ setResults, changeView }) => {
+export const QuestionsPage: React.FC<QuestionsPageProps> = ({ setResults, changeView }) => {
     const [topicWords, setTopicWords] = useState<string[]>(["", ""]);
     const [styleWords, setStyleWords] = useState<string[]>(["", ""]);
     const [spreadFactor, setSpreadFactor] = useState<typeof SpreadFactor>("entireMuseum");
@@ -43,7 +43,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
             startTimer();
 
             try {
-                const data = await getApiResults(
+                const data = await getApiResultsPage(
                     [...styleWords, ...topicWords].filter((x) => !!x),
                     spreadFactor,
                 );
@@ -57,7 +57,7 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
                     }
                 }
                 setResults(sortedByDepartment);
-                changeView("results");
+                changeView("ResultsPage");
             } catch (error: any) {
                 alert(error.message);
             }
@@ -128,5 +128,3 @@ const Questions: React.FC<Props> = ({ setResults, changeView }) => {
         </div>
     );
 };
-
-export default Questions;
