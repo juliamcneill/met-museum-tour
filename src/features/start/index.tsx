@@ -1,6 +1,6 @@
 import MetImage from "../../components/MetImage";
 import { UIButton } from "../../components/UIButton";
-import "../index.css";
+import "../../index.css";
 import React, { useCallback } from "react";
 
 interface StartPageProps {

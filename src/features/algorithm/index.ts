@@ -6,12 +6,13 @@ const metApiObjectsUrl = "https://collectionapi.metmuseum.org/public/collection/
 const metArtworkPublicWebpageUrl = "https://www.metmuseum.org/art/collection/search";
 const genericSearchParameters = "isOnView=true&isHighlight=true&hasImages=true";
 
-export const SpreadFactor = "singleExhibit" || "fewExhibits" || "entireMuseum";
+export const SpreadFactor: "singleExhibit" | "fewExhibits" | "entireMuseum" =
+    "singleExhibit" || "fewExhibits" || "entireMuseum";
 
 const wordInString = (string: string, word: string) => new RegExp("\\b" + word + "\\b").test(string);
 const parser = new DOMParser();
 
-export function processWords(words: string[]) {
+export function processWords(words: string[]): string[] {
     const lowercaseWords = words.map((x) => x.toLowerCase());
 
     const wordsWithNonPlurals = lowercaseWords.reduce((array, word) => {
@@ -22,7 +23,7 @@ export function processWords(words: string[]) {
         } else {
             return [...array, word];
         }
-    }, []);
+    }, [] as string[]);
 
     return wordsWithNonPlurals;
 }
@@ -47,7 +48,7 @@ export async function getApiResults(unprocessedWords: string[], spreadFactor: ty
         if (idFrequencyTracker[id] === undefined) {
             idFrequencyTracker[id] = 1;
         } else {
-            idFrequencyTracker[id]++;
+            idFrequencyTracker[id]!++;
         }
     }
 
@@ -56,7 +57,7 @@ export async function getApiResults(unprocessedWords: string[], spreadFactor: ty
     // Push all object ids by their frequency value
     const sorted: { id: string; count: number }[] = [];
     for (const [id, count] of Object.entries(idFrequencyTracker)) {
-        sorted.push({ id, count });
+        sorted.push({ id, count: count! });
     }
     sorted.sort((a, b) => b.count - a.count);
 
@@ -81,7 +82,7 @@ export async function getApiResults(unprocessedWords: string[], spreadFactor: ty
         }
 
         const parsedWebpageData = parser.parseFromString(webpageData, "text/html");
-        const webpageDescription = parsedWebpageData.querySelector(".artwork__intro__desc p").textContent;
+        const webpageDescription = parsedWebpageData.querySelector(".artwork__intro__desc p")!.textContent;
 
         for (const word of words) {
             if (

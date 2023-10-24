@@ -1,8 +1,8 @@
+import leftArrow from "../../assets/leftArrow.jpg";
+import rightArrow from "../../assets/rightArrow.jpg";
 import MetImage from "../../components/MetImage";
 import { UIButton } from "../../components/UIButton";
 import { Artwork } from "../../types";
-import leftArrow from "../assets/leftArrow.jpg";
-import rightArrow from "../assets/rightArrow.jpg";
 import React, { useCallback } from "react";
 
 interface ResultsPageProps {
