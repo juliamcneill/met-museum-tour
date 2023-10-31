@@ -38,6 +38,7 @@ export const App: React.FC = () => {
             case "start":
                 return (
                     <div
+                        className="mx-auto w-10/12 py-12"
                         style={{
                             opacity: startTransition,
                             transition: "opacity .25s",
@@ -49,6 +50,7 @@ export const App: React.FC = () => {
             case "questions":
                 return (
                     <div
+                        className="mx-auto w-10/12 py-12"
                         style={{
                             opacity: questionsTransition,
                             transition: "opacity .5s",
@@ -60,6 +62,7 @@ export const App: React.FC = () => {
             case "results":
                 return (
                     <div
+                        className="h-full overflow-hidden"
                         style={{
                             opacity: resultsTransition,
                             transition: "opacity .5s",
@@ -75,8 +78,8 @@ export const App: React.FC = () => {
 
     return (
         <StyledEngineProvider injectFirst>
-            <div className="min-h-full min-w-full bg-background py-12 pb-20">
-                <div className="mx-auto w-10/12 text-primary">{renderView}</div>
+            <div className="h-full min-h-full min-w-full">
+                <div className="h-full text-primary">{renderView}</div>
             </div>
         </StyledEngineProvider>
     );

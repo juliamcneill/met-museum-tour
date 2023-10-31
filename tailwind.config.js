@@ -8,6 +8,7 @@ export default {
                 dark: "#242424",
                 light: "#B3B3B3",
                 background: "#FFF9E7",
+                red: "#d63144",
             },
             boxShadow: {
                 DEFAULT: "3px 3px 0 #B3B3B3",
