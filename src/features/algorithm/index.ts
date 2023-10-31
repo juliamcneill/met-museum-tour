@@ -137,7 +137,14 @@ export async function getApiResults(unprocessedWords: string[], spreadFactor: ty
 
     console.info(
         "final rankings",
-        finalPieces.map(({ id, count, index }) => ({ id, count, name: objectMetadata[index].data.title })),
+        finalPieces.map(({ id, count, index }) => ({
+            id,
+            count,
+            name: objectMetadata[index].data.title,
+            department: objectMetadata[index].data.department,
+            gallery: objectMetadata[index].data.GalleryNumber,
+            data: objectMetadata[index].data,
+        })),
     );
 
     if (spreadFactor === "entireMuseum") {
